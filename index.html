@@ -1,80 +1,127 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ALIF. — Portfolio</title>
-  <!-- Google Fonts for clean, bold typography -->
-  <link rel="preconnect" href="https://googleapis.com">
-  <link rel="preconnect" href="https://gstatic.com" crossorigin>
-  <link href="https://googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <!-- FontAwesome for crisp icons -->
-  <link rel="stylesheet" href="https://cloudflare.com">
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+<main class="hero">
+  <!-- Top Status Pill -->
+  <header class="top-badge" onclick="copyEmail()">
+    <img src="https://githubusercontent.com" alt="ALIF" class="avatar" onerror="this.src='https://dicebear.com'">
+    <span class="brand-name">ALIF.</span>
+    <span class="status-dot"></span>
+    <span class="status-text" id="statusText">Available for work</span>
+  </header>
 
-  <main class="hero">
-    <!-- Top Availability Badge -->
-    <header class="top-badge">
-      <!-- Replace avatar.png with your uploaded profile image filename -->
-      <img src="avatar.png" alt="ALIF Avatar" class="avatar" onerror="this.src='https://placeholder.com'">
-      <span class="brand-name">ALIF.</span>
-      <span class="status-dot"></span>
-      <span class="status-text">Available for work</span>
-    </header>
+  <!-- Center Stage (Exact Coordinates) -->
+  <section class="center-stage">
+    <div class="headline-wrapper">
+      <h1 class="headline">
+        <span>DESIGN</span> <span>THAT</span> <span>MAKES</span><br>
+        <span>PEOPLE</span> <span>LOOK</span> <span>TWICE</span>
+      </h1>
 
-    <!-- Center Headline + Floating Skill Pills -->
-    <section class="center-stage">
-      <div class="headline-wrapper">
-        <h1 class="headline">DESIGN THAT MAKES<br>PEOPLE LOOK TWICE</h1>
-
-        <!-- Left Floating Pills -->
+      <!-- 1. UI/UX Designer (Green, Top-Left) -->
+      <div class="pill-anchor anchor-green" onclick="openModal('projects')">
+        <svg class="string-svg" viewBox="0 0 70 70">
+          <path d="M56,10 C42,26 24,42 8,54" fill="none" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="54" cy="12" r="4" fill="#22c55e"/>
+        </svg>
         <div class="pill pill-green">
-          <i class="fa-solid fa-play"></i> UI/UX Designer
-        </div>
-        <div class="pill pill-purple-left">
-          <i class="fa-solid fa-clapperboard"></i> Motion Designer
-        </div>
-
-        <!-- Right Floating Pills -->
-        <div class="pill pill-blue">
-          <i class="fa-solid fa-code"></i> Video Editor
-        </div>
-        <div class="pill pill-purple-right">
-          <i class="fa-solid fa-laptop"></i> Web Developer
+          <svg class="spark-svg spark-left" viewBox="0 0 24 44">
+            <line x1="18" y1="8" x2="6" y2="5" stroke="#22c55e" stroke-width="3" stroke-linecap="round"/>
+            <line x1="16" y1="22" x2="3" y2="22" stroke="#22c55e" stroke-width="3" stroke-linecap="round"/>
+            <line x1="18" y1="36" x2="6" y2="39" stroke="#22c55e" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>
+          UI/UX Designer
         </div>
       </div>
 
-      <!-- Resume CTA Button -->
-      <a href="#resume" class="resume-btn">
-        Resume <i class="fa-solid fa-arrow-right"></i>
-      </a>
-    </section>
+      <!-- 2. Motion Designer (Purple, Bottom-Left) -->
+      <div class="pill-anchor anchor-purple-left" onclick="openModal('projects')">
+        <svg class="string-svg" viewBox="0 0 70 70">
+          <path d="M52,6 C58,28 42,48 16,58" fill="none" stroke="#a855f7" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="53" cy="24" r="4.5" fill="#a855f7"/>
+        </svg>
+        <div class="pill pill-purple-left">
+          <svg class="spark-svg spark-topleft" viewBox="0 0 24 44">
+            <circle cx="14" cy="10" r="2.2" fill="#a855f7"/>
+            <circle cx="10" cy="22" r="2.2" fill="#a855f7"/>
+            <circle cx="13" cy="34" r="2.2" fill="#a855f7"/>
+          </svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20M7 6l3 4M14 6l3 4"/></svg>
+          Motion Designer
+        </div>
+      </div>
 
-    <!-- Bottom Interactive Dock -->
-    <nav class="bottom-dock">
-      <a href="#projects" class="dock-item">
-        <div class="dock-icon icon-purple"><i class="fa-solid fa-list-ul"></i></div>
-        <span>Projects</span>
-      </a>
-      <div class="divider"></div>
-      <a href="#contact" class="dock-item">
-        <div class="dock-icon icon-blue"><i class="fa-solid fa-envelope"></i></div>
-        <span>Contact</span>
-      </a>
-      <div class="divider"></div>
-      <a href="#about" class="dock-item">
-        <div class="dock-icon icon-pink"><i class="fa-solid fa-user"></i></div>
-        <span>About</span>
-      </a>
-      <div class="divider"></div>
-      <a href="#social" class="dock-item">
-        <div class="dock-icon icon-teal"><i class="fa-regular fa-image"></i></div>
-        <span>Social</span>
-      </a>
-    </nav>
-  </main>
+      <!-- 3. Video Editor (Blue, Mid-Right) -->
+      <div class="pill-anchor anchor-blue" onclick="openModal('projects')">
+        <svg class="string-svg" viewBox="0 0 70 70">
+          <path d="M12,6 C22,28 38,44 58,54" fill="none" stroke="#3b82f6" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="29" cy="33" r="4.5" fill="#3b82f6"/>
+        </svg>
+        <div class="pill pill-blue">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="10 9 7 12 10 15"/><polyline points="14 9 17 12 14 15"/></svg>
+          Video Editor
+          <svg class="spark-svg spark-right" viewBox="0 0 24 44">
+            <line x1="6" y1="8" x2="18" y2="5" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
+            <line x1="8" y1="22" x2="21" y2="22" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
+            <line x1="6" y1="36" x2="18" y2="39" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
 
-</body>
-</html>
+      <!-- 4. Web Developer (Purple, Bottom-Right) -->
+      <div class="pill-anchor anchor-purple-right" onclick="openModal('projects')">
+        <svg class="string-svg" viewBox="0 0 70 70">
+          <path d="M16,6 C10,28 24,46 52,58" fill="none" stroke="#a855f7" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="25" cy="40" r="4.5" fill="#a855f7"/>
+        </svg>
+        <div class="pill pill-purple-right">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/></svg>
+          Web Developer
+        </div>
+      </div>
+    </div>
+
+    <!-- Resume CTA -->
+    <button class="resume-btn" onclick="openModal('resume')">
+      Resume
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </button>
+  </section>
+
+  <!-- Bottom Interactive Dock -->
+  <nav class="bottom-dock">
+    <button class="dock-item" onclick="openModal('projects')">
+      <div class="dock-icon icon-purple">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4" cy="6" r="1.2" fill="currentColor"/><circle cx="4" cy="12" r="1.2" fill="currentColor"/><circle cx="4" cy="18" r="1.2" fill="currentColor"/></svg>
+      </div>
+      <span>Projects</span>
+    </button>
+    <div class="divider"></div>
+    <button class="dock-item" onclick="openModal('contact')">
+      <div class="dock-icon icon-blue">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      </div>
+      <span>Contact</span>
+    </button>
+    <div class="divider"></div>
+    <button class="dock-item" onclick="openModal('about')">
+      <div class="dock-icon icon-pink">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
+      <span>About</span>
+    </button>
+    <div class="divider"></div>
+    <button class="dock-item" onclick="openModal('social')">
+      <div class="dock-icon icon-teal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><path d="m21 15-5-5L5 21"/></svg>
+      </div>
+      <span>Social</span>
+    </button>
+  </nav>
+</main>
+
+<!-- Pop-Up Modal -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
