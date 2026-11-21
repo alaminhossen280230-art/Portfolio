@@ -1,3 +1,5 @@
+@import url('https://googleapis.com');
+
 * {
   margin: 0;
   padding: 0;
@@ -7,9 +9,8 @@
 
 body {
   min-height: 100vh;
-  /* Upload your clean storefront background as background.jpg */
-  background: url('background.jpg') center/cover no-repeat fixed;
-  background-color: #fde4e8; /* Soft pastel fallback while loading */
+  background: url('https://githubusercontent.com') center/cover no-repeat fixed;
+  background-color: #fde4e8;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,150 +20,159 @@ body {
 .hero {
   width: 100%;
   min-height: 100vh;
-  padding: 32px 20px;
+  padding: 26px 16px 28px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
 }
 
-/* Top Pill */
+/* Top Status Pill */
 .top-badge {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  padding: 8px 22px 8px 10px;
+  background: rgba(255, 255, 255, 0.84);
+  backdrop-filter: blur(14px);
+  padding: 8px 24px 8px 10px;
   border-radius: 999px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
-.avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  background: #eee;
-}
+.top-badge:hover { transform: scale(1.03); }
+.avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
+.brand-name { font-weight: 800; font-size: 16px; color: #111; }
+.status-dot { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25); }
+.status-text { font-size: 14px; font-weight: 500; color: #222; }
 
-.brand-name {
-  font-weight: 800;
-  font-size: 16px;
-  color: #111;
-}
-
-.status-dot {
-  width: 10px;
-  height: 10px;
-  background: #22c55e;
-  border-radius: 50%;
-  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
-}
-
-.status-text {
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-}
-
-/* Center Stage & Soft Glow */
+/* Center Stage Scaled Cleanly for Mobile & Desktop */
 .center-stage {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  position: relative;
   margin: auto 0;
+  transform: scale(clamp(0.46, 94vw / 860, 1));
+  transform-origin: center center;
 }
 
 .headline-wrapper {
   position: relative;
-  padding: 30px 40px;
-  /* Soft radial glow behind text so it stands out on the illustration */
-  background: radial-gradient(circle, rgba(255,255,255,0.92) 35%, rgba(255,255,255,0) 75%);
+  width: 780px;
+  padding: 26px 24px 30px;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.96) 44%, rgba(255,255,255,0) 76%);
 }
 
 .headline {
-  font-size: clamp(2.2rem, 5.5vw, 4.6rem);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 4.1rem;
   font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  color: #111;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  color: #111111;
 }
 
-/* Floating Role Pills */
+.headline span {
+  font-family: 'Montserrat', sans-serif;
+  display: inline-block;
+  margin: 0 6px;
+}
+
+/* Exact Tether & Pill Coordinates */
+.pill-anchor { position: absolute; cursor: pointer; z-index: 5; }
+.string-svg { width: 64px; height: 64px; position: absolute; pointer-events: none; }
+
+/* 1. UI/UX Designer (Green - Left of PEOPLE, attached to D of DESIGN) */
+.anchor-green { top: 82px; left: -122px; }
+.anchor-green .string-svg { top: -38px; right: -38px; }
+
+/* 2. Motion Designer (Purple - Below PEOPLE, attached to P of PEOPLE) */
+.anchor-purple-left { bottom: -22px; left: -54px; }
+.anchor-purple-left .string-svg { top: -44px; right: -26px; }
+
+/* 3. Video Editor (Blue - Right of TWICE, attached to S of MAKES) */
+.anchor-blue { top: 118px; right: -112px; }
+.anchor-blue .string-svg { top: -44px; left: -34px; }
+
+/* 4. Web Developer (Purple - Below TWICE, attached to E of TWICE) */
+.anchor-purple-right { bottom: -30px; right: -56px; }
+.anchor-purple-right .string-svg { top: -44px; left: -28px; }
+
+/* Pill Styling */
 .pill {
-  position: absolute;
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 18px;
+  padding: 10px 20px;
   border-radius: 999px;
   color: #fff;
   font-weight: 600;
-  font-size: 14px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  user-select: none;
-}
-
-.pill:hover {
-  transform: scale(1.08) rotate(0deg) !important;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+  font-size: 14.5px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  white-space: nowrap;
 }
 
 .pill-green {
   background: linear-gradient(135deg, #22c55e, #16a34a);
-  top: 42%;
-  left: -115px;
-  transform: rotate(-16deg);
+  transform: rotate(-17deg);
+  animation: swayGreen 4s ease-in-out infinite;
 }
 
 .pill-purple-left {
-  background: linear-gradient(135deg, #a855f7, #7e22ce);
-  bottom: -10px;
-  left: -65px;
+  background: linear-gradient(135deg, #a855f7, #8b5cf6);
   transform: rotate(-12deg);
+  animation: swayPurpleL 4.6s ease-in-out infinite;
 }
 
 .pill-blue {
   background: linear-gradient(135deg, #3b82f6, #2563eb);
-  top: 52%;
-  right: -105px;
   transform: rotate(15deg);
+  animation: swayBlue 4.2s ease-in-out infinite;
 }
 
 .pill-purple-right {
   background: linear-gradient(135deg, #a855f7, #9333ea);
-  bottom: -15px;
-  right: -60px;
-  transform: rotate(16deg);
+  transform: rotate(17deg);
+  animation: swayPurpleR 4.8s ease-in-out infinite;
 }
+
+.pill-anchor:hover .pill { animation: none; transform: scale(1.12) rotate(0deg); }
+
+@keyframes swayGreen { 0%, 100% { transform: rotate(-17deg); } 50% { transform: rotate(-13deg); } }
+@keyframes swayPurpleL { 0%, 100% { transform: rotate(-12deg); } 50% { transform: rotate(-8deg); } }
+@keyframes swayBlue { 0%, 100% { transform: rotate(15deg); } 50% { transform: rotate(11deg); } }
+@keyframes swayPurpleR { 0%, 100% { transform: rotate(17deg); } 50% { transform: rotate(13deg); } }
+
+/* Comic Burst SVGs */
+.spark-svg { position: absolute; width: 20px; height: 38px; pointer-events: none; }
+.spark-left { left: -22px; }
+.spark-topleft { left: -18px; top: -4px; }
+.spark-right { right: -22px; }
 
 /* Resume Button */
 .resume-btn {
-  margin-top: 24px;
+  margin-top: 20px;
   display: inline-flex;
   align-items: center;
   gap: 10px;
   background: #ffffff;
   color: #111;
-  text-decoration: none;
+  border: none;
+  cursor: pointer;
   font-weight: 700;
-  font-size: 16px;
-  padding: 14px 30px;
+  font-size: 16.5px;
+  padding: 15px 34px;
   border-radius: 999px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
 }
 
-.resume-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
-}
+.resume-btn:hover { transform: translateY(-3px) scale(1.03); }
 
 /* Bottom Dock */
 .bottom-dock {
@@ -170,38 +180,37 @@ body {
   align-items: center;
   gap: 18px;
   background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(14px);
-  padding: 14px 30px;
+  backdrop-filter: blur(16px);
+  padding: 14px 32px;
   border-radius: 999px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.95);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
 }
 
 .dock-item {
+  background: none;
+  border: none;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  text-decoration: none;
   color: #222;
   font-size: 13px;
   font-weight: 600;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.dock-item:hover {
-  transform: translateY(-6px) scale(1.06);
-}
+.dock-item:hover { transform: translateY(-6px) scale(1.08); }
 
 .dock-icon {
   width: 44px;
   height: 44px;
-  border-radius: 12px;
+  border-radius: 13px;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #fff;
-  font-size: 18px;
 }
 
 .icon-purple { background: #9333ea; }
@@ -209,26 +218,41 @@ body {
 .icon-pink   { background: #f472b6; }
 .icon-teal   { background: #2dd4bf; }
 
-.divider {
-  width: 1px;
-  height: 44px;
-  background: rgba(0, 0, 0, 0.08);
+.divider { width: 1px; height: 42px; background: rgba(0, 0, 0, 0.08); }
+
+/* Pop-up Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 17, 17, 0.35);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 50;
 }
 
-/* Mobile Layout Adjustment */
-@media (max-width: 850px) {
-  .pill {
-    position: static;
-    transform: none !important;
-    margin: 6px;
-  }
-  .headline-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .headline {
-    width: 100%;
-    margin-bottom: 16px;
-  }
+.modal-backdrop.active { opacity: 1; pointer-events: auto; }
+.modal-card { background: #fff; width: 100%; max-width: 440px; border-radius: 26px; padding: 28px; position: relative; box-shadow: 0 24px 60px rgba(0,0,0,0.2); }
+.modal-close { position: absolute; top: 18px; right: 18px; width: 32px; height: 32px; border-radius: 50%; border: none; background: #f3f4f6; cursor: pointer; font-weight: 700; }
+.modal-sub { color: #666; font-size: 13px; margin: 6px 0 18px; }
+.project-grid { display: flex; flex-direction: column; gap: 10px; }
+.project-item { background: #f9fafb; padding: 12px 14px; border-radius: 14px; }
+.project-item h3 { font-size: 15px; margin: 4px 0; }
+.project-item p { font-size: 12.5px; color: #555; }
+.tag { font-size: 10.5px; font-weight: 700; padding: 2px 9px; border-radius: 999px; color: #fff; }
+.tag-green { background: #22c55e; }
+.tag-purple { background: #9333ea; }
+.tag-blue { background: #3b82f6; }
+.action-btn { display: inline-block; margin-top: 12px; background: #111; color: #fff; text-decoration: none; border: none; padding: 11px 20px; border-radius: 999px; font-weight: 600; font-size: 13px; cursor: pointer; }
+.social-links { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.social-pill { padding: 11px; background: #f3f4f6; border-radius: 12px; text-decoration: none; color: #111; font-weight: 600; font-size: 13px; text-align: center; }
+
+@media (max-width: 600px) {
+  .bottom-dock { gap: 12px; padding: 10px 20px; }
+  .dock-icon { width: 38px; height: 38px; }
 }
