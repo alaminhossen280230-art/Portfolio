@@ -1,1 +1,234 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
 
+body {
+  min-height: 100vh;
+  /* Upload your clean storefront background as background.jpg */
+  background: url('background.jpg') center/cover no-repeat fixed;
+  background-color: #fde4e8; /* Soft pastel fallback while loading */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.hero {
+  width: 100%;
+  min-height: 100vh;
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Top Pill */
+.top-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  padding: 8px 22px 8px 10px;
+  border-radius: 999px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #eee;
+}
+
+.brand-name {
+  font-weight: 800;
+  font-size: 16px;
+  color: #111;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  background: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+}
+
+.status-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Center Stage & Soft Glow */
+.center-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  margin: auto 0;
+}
+
+.headline-wrapper {
+  position: relative;
+  padding: 30px 40px;
+  /* Soft radial glow behind text so it stands out on the illustration */
+  background: radial-gradient(circle, rgba(255,255,255,0.92) 35%, rgba(255,255,255,0) 75%);
+}
+
+.headline {
+  font-size: clamp(2.2rem, 5.5vw, 4.6rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: #111;
+}
+
+/* Floating Role Pills */
+.pill {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  user-select: none;
+}
+
+.pill:hover {
+  transform: scale(1.08) rotate(0deg) !important;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+}
+
+.pill-green {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  top: 42%;
+  left: -115px;
+  transform: rotate(-16deg);
+}
+
+.pill-purple-left {
+  background: linear-gradient(135deg, #a855f7, #7e22ce);
+  bottom: -10px;
+  left: -65px;
+  transform: rotate(-12deg);
+}
+
+.pill-blue {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  top: 52%;
+  right: -105px;
+  transform: rotate(15deg);
+}
+
+.pill-purple-right {
+  background: linear-gradient(135deg, #a855f7, #9333ea);
+  bottom: -15px;
+  right: -60px;
+  transform: rotate(16deg);
+}
+
+/* Resume Button */
+.resume-btn {
+  margin-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  color: #111;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 14px 30px;
+  border-radius: 999px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.resume-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
+}
+
+/* Bottom Dock */
+.bottom-dock {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px);
+  padding: 14px 30px;
+  border-radius: 999px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+}
+
+.dock-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: #222;
+  font-size: 13px;
+  font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+.dock-item:hover {
+  transform: translateY(-6px) scale(1.06);
+}
+
+.dock-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 18px;
+}
+
+.icon-purple { background: #9333ea; }
+.icon-blue   { background: #3b82f6; }
+.icon-pink   { background: #f472b6; }
+.icon-teal   { background: #2dd4bf; }
+
+.divider {
+  width: 1px;
+  height: 44px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* Mobile Layout Adjustment */
+@media (max-width: 850px) {
+  .pill {
+    position: static;
+    transform: none !important;
+    margin: 6px;
+  }
+  .headline-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .headline {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+}
