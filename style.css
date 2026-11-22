@@ -1,4 +1,4 @@
-* {
+ * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -202,20 +202,34 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 17px;
-  border-radius: 999px;
-  color: #ffffff;
-  font-weight: 600;
+  padding: 11px 18px;
+  border-radius: 18px;
+  color: #4a3728;
+  font-weight: 700;
   font-size: 0.88rem;
   letter-spacing: -0.01em;
+  border: 2px solid rgba(255, 248, 235, 0.95);
   box-shadow:
-    0 10px 22px rgba(0, 0, 0, 0.22),
-    inset 0 1px 1px rgba(255, 255, 255, 0.35);
+    0 9px 20px rgba(86, 63, 43, 0.16),
+    inset 0 1px 1px rgba(255, 255, 255, 0.58);
   white-space: nowrap;
   user-select: none;
   transform-origin: top center;
   animation: gentleSway 4.8s ease-in-out infinite;
   animation-delay: var(--delay);
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.25s ease;
+}
+
+.role-pill:hover {
+  box-shadow:
+    0 13px 26px rgba(86, 63, 43, 0.22),
+    inset 0 1px 1px rgba(255, 255, 255, 0.65);
+}
+
+.role-pill:active {
+  transform: scale(0.96) rotate(var(--rot));
 }
 
 @keyframes gentleSway {
@@ -224,25 +238,25 @@ body {
 }
 
 .pill-uiux {
-  background: linear-gradient(135deg, #27a86b, #3cc484);
+  background: linear-gradient(135deg, #c6dfba, #97c89b);
   top: 22px;
   left: 6%;
 }
 
 .pill-motion {
-  background: linear-gradient(135deg, #8652c7, #9c6ade);
+  background: linear-gradient(135deg, #efbbb9, #d99a9f);
   top: 42px;
   right: 4%;
 }
 
 .pill-video {
-  background: linear-gradient(135deg, #2b7bc6, #3d92e0);
+  background: linear-gradient(135deg, #b0d5e3, #82b8d2);
   top: 104px;
   left: 10%;
 }
 
 .pill-web {
-  background: linear-gradient(135deg, #7444d6, #8c5ce8);
+  background: linear-gradient(135deg, #edc99d, #d7aa78);
   top: 122px;
   right: 6%;
 }
