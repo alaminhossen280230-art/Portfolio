@@ -10,12 +10,14 @@ body {
   background-color: #0e1015;
   display: flex;
   justify-content: center;
+  min-height: 100vh;
   min-height: 100dvh;
 }
 
 .viewport {
   width: 100%;
   max-width: 440px;
+  min-height: 100vh;
   min-height: 100dvh;
   position: relative;
   overflow: hidden;
@@ -25,8 +27,9 @@ body {
 .canvas {
   position: relative;
   width: 100%;
+  min-height: 100vh;
   min-height: 100dvh;
-  background-image: url('background.jpg');
+  background-image: url('./background.png');
   background-size: cover;
   background-position: center bottom;
   background-repeat: no-repeat;

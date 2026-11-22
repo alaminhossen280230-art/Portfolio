@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>ALIF. — Portfolio</title>
-  <link rel="preconnect" href="https://googleapis.com">
-  <link rel="preconnect" href="https://gstatic.com" crossorigin>
-  <link href="https://googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css?v=4" />
 </head>
 <body>
 
@@ -19,7 +19,7 @@
         <!-- Top Status Pill -->
         <div class="status-pill">
           <div class="avatar-ring">
-            <img src="avatar.jpg" alt="Alif" class="avatar-img" onerror="this.style.display='none'" />
+            <img src="./avatar.jpg" alt="Alif" class="avatar-img" onerror="this.style.display='none'" />
             <span class="avatar-fallback">A</span>
           </div>
           <span class="brand-name">ALIF.</span>
@@ -177,7 +177,7 @@
         strands.forEach((s) => {
           const midX = (s.sx + s.ex) / 2 + s.sag;
           const midY = (s.sy + s.ey) / 2;
-          const path = document.createElementNS('http://w3.org', 'path');
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
           path.setAttribute('d', `M ${s.sx} ${s.sy} Q ${midX} ${midY} ${s.ex} ${s.ey}`);
           path.setAttribute('stroke', `rgba(255, 255, 255, ${s.opacity})`);
           path.setAttribute('stroke-width', '1.1');
@@ -193,7 +193,7 @@
           const x2 = (startX + 14) + (targetRightX - (startX + 14)) * t;
           const y2 = startY + (targetY - startY) * t;
 
-          const cross = document.createElementNS('http://w3.org', 'path');
+          const cross = document.createElementNS('http://www.w3.org/2000/svg', 'path');
           cross.setAttribute('d', `M ${x1} ${y1} Q ${(x1 + x2) / 2} ${(y1 + y2) / 2 + 5} ${x2} ${y2}`);
           cross.setAttribute('stroke', 'rgba(255, 255, 255, 0.32)');
           cross.setAttribute('stroke-width', '0.85');
