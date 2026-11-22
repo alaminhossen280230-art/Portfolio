@@ -1,258 +1,232 @@
-@import url('https://googleapis.com');
-
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 body {
-  min-height: 100vh;
-  background: url('https://githubusercontent.com') center/cover no-repeat fixed;
-  background-color: #fde4e8;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #111;
   display: flex;
   justify-content: center;
-  align-items: center;
-  overflow-x: hidden;
+  min-height: 100dvh;
 }
 
-.hero {
+/* Mobile Viewport Container */
+.mobile-screen {
+  position: relative;
   width: 100%;
-  min-height: 100vh;
-  padding: 26px 16px 28px;
+  max-width: 440px;
+  min-height: 100dvh;
+  background: url('background.jpg') no-repeat center center / cover;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  padding: 48px 20px 32px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
-/* Top Status Pill */
-.top-badge {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.84);
-  backdrop-filter: blur(14px);
-  padding: 8px 24px 8px 10px;
-  border-radius: 999px;
-  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.08);
-  border: 1.5px solid rgba(255, 255, 255, 0.95);
-  cursor: pointer;
-  transition: transform 0.2s ease;
+/* Subtle overlay to keep dark text readable */
+.mobile-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  pointer-events: none;
 }
 
-.top-badge:hover { transform: scale(1.03); }
-.avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
-.brand-name { font-weight: 800; font-size: 16px; color: #111; }
-.status-dot { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25); }
-.status-text { font-size: 14px; font-weight: 500; color: #222; }
-
-/* Center Stage Scaled Cleanly for Mobile & Desktop */
-.center-stage {
+.content-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  margin: auto 0;
-  transform: scale(clamp(0.46, 94vw / 860, 1));
-  transform-origin: center center;
+  margin-top: 2vh;
 }
 
-.headline-wrapper {
-  position: relative;
-  width: 780px;
-  padding: 26px 24px 30px;
-  background: radial-gradient(ellipse at center, rgba(255,255,255,0.96) 44%, rgba(255,255,255,0) 76%);
-}
-
-.headline {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 4.1rem;
-  font-weight: 800;
-  line-height: 1.06;
-  letter-spacing: -0.02em;
-  color: #111111;
-}
-
-.headline span {
-  font-family: 'Montserrat', sans-serif;
-  display: inline-block;
-  margin: 0 6px;
-}
-
-/* Exact Tether & Pill Coordinates */
-.pill-anchor { position: absolute; cursor: pointer; z-index: 5; }
-.string-svg { width: 64px; height: 64px; position: absolute; pointer-events: none; }
-
-/* 1. UI/UX Designer (Green - Left of PEOPLE, attached to D of DESIGN) */
-.anchor-green { top: 82px; left: -122px; }
-.anchor-green .string-svg { top: -38px; right: -38px; }
-
-/* 2. Motion Designer (Purple - Below PEOPLE, attached to P of PEOPLE) */
-.anchor-purple-left { bottom: -22px; left: -54px; }
-.anchor-purple-left .string-svg { top: -44px; right: -26px; }
-
-/* 3. Video Editor (Blue - Right of TWICE, attached to S of MAKES) */
-.anchor-blue { top: 118px; right: -112px; }
-.anchor-blue .string-svg { top: -44px; left: -34px; }
-
-/* 4. Web Developer (Purple - Below TWICE, attached to E of TWICE) */
-.anchor-purple-right { bottom: -30px; right: -56px; }
-.anchor-purple-right .string-svg { top: -44px; left: -28px; }
-
-/* Pill Styling */
-.pill {
-  position: relative;
+/* Top Status Pill */
+.status-pill {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 8px 18px 8px 10px;
   border-radius: 999px;
-  color: #fff;
-  font-weight: 600;
-  font-size: 14.5px;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16);
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  margin-bottom: 28px;
 }
 
-.pill-green {
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-  transform: rotate(-17deg);
-  animation: swayGreen 4s ease-in-out infinite;
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #e6a86c;
 }
 
-.pill-purple-left {
-  background: linear-gradient(135deg, #a855f7, #8b5cf6);
-  transform: rotate(-12deg);
-  animation: swayPurpleL 4.6s ease-in-out infinite;
+.brand-name {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #1a1a1a;
+  letter-spacing: 0.02em;
 }
 
-.pill-blue {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  transform: rotate(15deg);
-  animation: swayBlue 4.2s ease-in-out infinite;
+.availability {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
 }
 
-.pill-purple-right {
-  background: linear-gradient(135deg, #a855f7, #9333ea);
-  transform: rotate(17deg);
-  animation: swayPurpleR 4.8s ease-in-out infinite;
+.status-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #2ecc71;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.25);
 }
 
-.pill-anchor:hover .pill { animation: none; transform: scale(1.12) rotate(0deg); }
+/* Main Headline */
+.hero-title {
+  font-size: clamp(2.3rem, 8.5vw, 2.85rem);
+  font-weight: 900;
+  line-height: 1.06;
+  text-align: center;
+  color: #16181d;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
 
-@keyframes swayGreen { 0%, 100% { transform: rotate(-17deg); } 50% { transform: rotate(-13deg); } }
-@keyframes swayPurpleL { 0%, 100% { transform: rotate(-12deg); } 50% { transform: rotate(-8deg); } }
-@keyframes swayBlue { 0%, 100% { transform: rotate(15deg); } 50% { transform: rotate(11deg); } }
-@keyframes swayPurpleR { 0%, 100% { transform: rotate(17deg); } 50% { transform: rotate(13deg); } }
-
-/* Comic Burst SVGs */
-.spark-svg { position: absolute; width: 20px; height: 38px; pointer-events: none; }
-.spark-left { left: -22px; }
-.spark-topleft { left: -18px; top: -4px; }
-.spark-right { right: -22px; }
-
-/* Resume Button */
+/* Resume CTA Button */
 .resume-btn {
-  margin-top: 20px;
   display: inline-flex;
   align-items: center;
   gap: 10px;
   background: #ffffff;
-  color: #111;
-  border: none;
-  cursor: pointer;
+  color: #16181d;
+  text-decoration: none;
   font-weight: 700;
-  font-size: 16.5px;
-  padding: 15px 34px;
+  font-size: 1.1rem;
+  padding: 16px 32px;
   border-radius: 999px;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.resume-btn:hover { transform: translateY(-3px) scale(1.03); }
+.resume-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.16);
+}
 
-/* Bottom Dock */
-.bottom-dock {
-  display: flex;
+/* Floating Role Pills Area */
+.roles-stage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 220px;
+  margin: auto 0;
+}
+
+.role-pill {
+  position: absolute;
+  display: inline-flex;
   align-items: center;
-  gap: 18px;
+  gap: 8px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.92rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.role-uiux {
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  top: 18%;
+  left: 6%;
+  transform: rotate(-7deg);
+}
+
+.role-motion {
+  background: linear-gradient(135deg, #8e44ad, #9b59b6);
+  top: 30%;
+  right: 5%;
+  transform: rotate(6deg);
+}
+
+.role-video {
+  background: linear-gradient(135deg, #2980b9, #3498db);
+  bottom: 24%;
+  left: 8%;
+  transform: rotate(5deg);
+}
+
+.role-web {
+  background: linear-gradient(135deg, #6c5ce7, #8e44ad);
+  bottom: 10%;
+  right: 6%;
+  transform: rotate(-6deg);
+}
+
+/* Bottom Navigation Dock */
+.bottom-dock {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 380px;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(16px);
-  padding: 14px 32px;
-  border-radius: 999px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 14px 16px;
+  border-radius: 32px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
 }
 
 .dock-item {
-  background: none;
-  border: none;
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  color: #222;
-  font-size: 13px;
+  text-decoration: none;
+  color: #1a1a1a;
+  font-size: 0.82rem;
   font-weight: 600;
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.2s ease;
 }
 
-.dock-item:hover { transform: translateY(-6px) scale(1.08); }
+.dock-item:hover {
+  transform: translateY(-3px);
+}
 
 .dock-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 13px;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  color: #fff;
-}
-
-.icon-purple { background: #9333ea; }
-.icon-blue   { background: #3b82f6; }
-.icon-pink   { background: #f472b6; }
-.icon-teal   { background: #2dd4bf; }
-
-.divider { width: 1px; height: 42px; background: rgba(0, 0, 0, 0.08); }
-
-/* Pop-up Modal */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(17, 17, 17, 0.35);
-  backdrop-filter: blur(8px);
-  display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 20px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-  z-index: 50;
+  color: #ffffff;
 }
 
-.modal-backdrop.active { opacity: 1; pointer-events: auto; }
-.modal-card { background: #fff; width: 100%; max-width: 440px; border-radius: 26px; padding: 28px; position: relative; box-shadow: 0 24px 60px rgba(0,0,0,0.2); }
-.modal-close { position: absolute; top: 18px; right: 18px; width: 32px; height: 32px; border-radius: 50%; border: none; background: #f3f4f6; cursor: pointer; font-weight: 700; }
-.modal-sub { color: #666; font-size: 13px; margin: 6px 0 18px; }
-.project-grid { display: flex; flex-direction: column; gap: 10px; }
-.project-item { background: #f9fafb; padding: 12px 14px; border-radius: 14px; }
-.project-item h3 { font-size: 15px; margin: 4px 0; }
-.project-item p { font-size: 12.5px; color: #555; }
-.tag { font-size: 10.5px; font-weight: 700; padding: 2px 9px; border-radius: 999px; color: #fff; }
-.tag-green { background: #22c55e; }
-.tag-purple { background: #9333ea; }
-.tag-blue { background: #3b82f6; }
-.action-btn { display: inline-block; margin-top: 12px; background: #111; color: #fff; text-decoration: none; border: none; padding: 11px 20px; border-radius: 999px; font-weight: 600; font-size: 13px; cursor: pointer; }
-.social-links { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.social-pill { padding: 11px; background: #f3f4f6; border-radius: 12px; text-decoration: none; color: #111; font-weight: 600; font-size: 13px; text-align: center; }
-
-@media (max-width: 600px) {
-  .bottom-dock { gap: 12px; padding: 10px 20px; }
-  .dock-icon { width: 38px; height: 38px; }
-}
+.icon-projects { background: #8e7cf3; }
+.icon-contact  { background: #5a9cf8; }
+.icon-about    { background: #f28bb8; }
+.icon-social   { background: #57c7a5; }
