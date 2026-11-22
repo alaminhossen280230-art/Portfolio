@@ -1,4 +1,4 @@
- * {
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -204,14 +204,14 @@ body {
   gap: 8px;
   padding: 11px 18px;
   border-radius: 18px;
-  color: #4a3728;
+  color: #1e293b;
   font-weight: 700;
   font-size: 0.88rem;
   letter-spacing: -0.01em;
-  border: 2px solid rgba(255, 248, 235, 0.95);
-  box-shadow:
-    0 9px 20px rgba(86, 63, 43, 0.16),
-    inset 0 1px 1px rgba(255, 255, 255, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
   white-space: nowrap;
   user-select: none;
   transform-origin: top center;
@@ -222,10 +222,12 @@ body {
     box-shadow 0.25s ease;
 }
 
+.role-pill svg {
+  flex: 0 0 auto;
+}
+
 .role-pill:hover {
-  box-shadow:
-    0 13px 26px rgba(86, 63, 43, 0.22),
-    inset 0 1px 1px rgba(255, 255, 255, 0.65);
+  box-shadow: 0 9px 20px rgba(15, 23, 42, 0.10);
 }
 
 .role-pill:active {
@@ -238,25 +240,25 @@ body {
 }
 
 .pill-uiux {
-  background: linear-gradient(135deg, #c6dfba, #97c89b);
+  background: rgba(205, 244, 222, 0.76);
   top: 22px;
   left: 6%;
 }
 
 .pill-motion {
-  background: linear-gradient(135deg, #efbbb9, #d99a9f);
+  background: rgba(229, 218, 255, 0.76);
   top: 42px;
   right: 4%;
 }
 
 .pill-video {
-  background: linear-gradient(135deg, #b0d5e3, #82b8d2);
+  background: rgba(205, 235, 255, 0.78);
   top: 104px;
   left: 10%;
 }
 
 .pill-web {
-  background: linear-gradient(135deg, #edc99d, #d7aa78);
+  background: rgba(255, 230, 202, 0.80);
   top: 122px;
   right: 6%;
 }
@@ -269,12 +271,12 @@ body {
   gap: 10px;
   width: 100%;
   max-width: 365px;
-  background: rgba(245, 247, 250, 0.78);
+  background: rgba(255, 251, 242, 0.72);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.78);
   padding: 13px 16px 11px;
-  border-radius: 34px;
+  border-radius: 28px;
   box-shadow: 0 14px 34px rgba(15, 23, 42, 0.22);
 }
 
@@ -295,15 +297,22 @@ body {
 .dock-tile {
   width: 50px;
   height: 50px;
-  border-radius: 15px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.6),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.15),
+    0 5px 10px rgba(30, 41, 59, 0.16);
 }
 
-.tile-projects { background: linear-gradient(145deg, #8b7bf2, #7866e6); }
-.tile-contact  { background: linear-gradient(145deg, #5ea0f7, #488ae6); }
-.tile-about    { background: linear-gradient(145deg, #f28bb8, #e673a5); }
-.tile-social   { background: linear-gradient(145deg, #5bc9a8, #45b593); }
+.dock-tile svg {
+  filter: drop-shadow(0 1px 1px rgba(43, 36, 68, 0.18));
+}
+
+.tile-projects { background: linear-gradient(145deg, #aa9bff, #8068ed); }
+.tile-contact  { background: linear-gradient(145deg, #8bd1ff, #549bed); }
+.tile-about    { background: linear-gradient(145deg, #ffa8c7, #e978a5); }
+.tile-social   { background: linear-gradient(145deg, #91e8c9, #4fbea0); }
