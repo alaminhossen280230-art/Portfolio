@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f6e5c4" />
+  <title>My Projects — ALIF.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body { font-family: 'DM Sans', sans-serif; color: #302820; background: #e8c99a; overflow-x: hidden; }
+    button { font: inherit; }
+    .projects-scene { min-height: 100svh; position: relative; overflow: hidden; padding: 28px clamp(18px, 4vw, 64px) 25px; isolation: isolate; background: radial-gradient(ellipse at 74% 8%, rgba(255,255,226,.96), transparent 34%), radial-gradient(ellipse at 8% 18%, #d7edcf 0, transparent 26%), linear-gradient(180deg,#f5e8ce 0%,#f6dfb4 45%,#eac48d 100%); }
+    .projects-scene::before { content:""; position:absolute; z-index:-1; inset:0 0 0; background: repeating-linear-gradient(3deg,transparent 0 68px,rgba(142,91,46,.13) 69px,transparent 72px), linear-gradient(90deg,rgba(255,255,255,.28),transparent 25%,rgba(173,112,58,.08) 80%,transparent); pointer-events:none; }
+    .window { position:absolute; z-index:-1; right:6%; top:-8%; width:min(42vw,520px); height:min(38vh,330px); min-height:210px; border:14px solid #9a6849; border-top:0; border-radius:0 0 12px 12px; background:linear-gradient(135deg,#fff5c9,#c8e7c2 48%,#fef4d4); box-shadow:inset 0 0 0 5px rgba(255,255,255,.45),0 12px 22px #8d5c3a44; }
+    .window::before,.window::after { content:""; position:absolute; background:#a57551; }
+    .window::before { width:10px; height:100%; left:51%; top:0; }
+    .window::after { height:10px; width:100%; top:43%; left:0; }
+    .sunleaf { position:absolute; right:8%; top:18%; font-size:clamp(38px,6vw,82px); opacity:.58; filter:drop-shadow(0 4px 4px #63794a33); }
+    .desk-props { position:absolute; z-index:-1; inset:0; pointer-events:none; }
+    .prop { position:absolute; filter:drop-shadow(0 8px 7px #75533233); }
+    .mug { left:3%; top:26%; font-size:clamp(52px,8vw,100px); transform:rotate(-8deg); }
+    .plant { right:3%; top:20%; font-size:clamp(60px,8vw,108px); transform:rotate(8deg); }
+    .palette { right:3%; bottom:13%; font-size:clamp(48px,7vw,86px); transform:rotate(-12deg); }
+    .brushes { left:5%; top:17%; font-size:clamp(54px,7vw,90px); transform:rotate(-20deg); }
+    .back-link { position:relative; z-index:4; display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; color:#413426; text-decoration:none; font-size:30px; border-radius:50%; transition:transform .25s,background .25s; }
+    .back-link:hover { transform:translateX(-4px); background:#fff8e466; }
+    .page-title { position:absolute; top:24px; left:50%; transform:translateX(-50%); margin:0; white-space:nowrap; font:700 clamp(36px,5vw,58px)/1 'Caveat',cursive; color:#382a22; text-shadow:0 2px 0 #fff8df; }
+    .title-spark { display:inline-block; font:400 23px 'DM Sans',sans-serif; vertical-align:top; color:#856841; }
+    .filter-row { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:26px auto 0; position:relative; z-index:3; }
+    .filter { border:1px solid #805d3c44; border-radius:4px; padding:8px 14px; cursor:pointer; box-shadow:2px 4px 0 #5c422422,0 5px 12px #50391a18; font-size:15px; font-weight:700; color:#302820; transition:transform .2s,filter .2s; }
+    .filter:hover { transform:translateY(-3px) rotate(-1deg); }
+    .filter[aria-pressed="true"] { background:#39332e; color:white; border-color:#39332e; }
+    .filter[data-filter="uiux"] { background:#c9ead4; }
+    .filter[data-filter="motion"] { background:#dfd1f6; }
+    .filter[data-filter="video"] { background:#c8e4f4; }
+    .filter[data-filter="web"] { background:#f6d8b8; }
+    .filter[data-filter="all"][aria-pressed="true"] { background:#39332e; }
+    .stack-wrap { position:relative; width:min(100%,980px); height:min(63vh,590px); min-height:420px; margin:28px auto 0; display:grid; place-items:center; perspective:1400px; }
+    .notebook { position:absolute; width:min(72%,650px); height:91%; left:50%; top:50%; border-radius:9px; background:repeating-linear-gradient(0deg,#fffaf0 0 31px,#e6d9c2 32px,#fffaf0 33px); border:1px solid #c6ad88; box-shadow:0 18px 34px #5a402a30; }
+    .notebook.one { transform:translate(-53%,-48%) rotate(-7deg); }
+    .notebook.two { transform:translate(-47%,-50%) rotate(6deg); background:repeating-linear-gradient(0deg,#f5eddb 0 31px,#dfd0b6 32px,#f5eddb 33px); }
+    .project-card { position:absolute; z-index:2; width:min(64%,560px); height:100%; max-height:570px; min-height:405px; padding:18px 20px 15px; border-radius:11px; background:linear-gradient(145deg,#fffdf5,#f7efd9); border:1px solid #e8dec9; box-shadow:0 18px 38px #503a2942, inset 0 0 0 5px rgba(255,255,255,.48); transform:rotate(var(--tilt,0deg)); transition:transform .55s cubic-bezier(.2,.8,.2,1), opacity .4s,filter .4s; display:flex; flex-direction:column; }
+    .project-card::before { content:""; position:absolute; top:-11px; left:50%; width:96px; height:28px; transform:translateX(-50%) rotate(-3deg); background:rgba(132,207,181,.86); background-image:radial-gradient(#fff9 1.4px,transparent 1.5px); background-size:12px 12px; box-shadow:0 2px 4px #48381d22; }
+    .project-card[data-pos="prev"] { z-index:1; transform:translateX(-76%) rotate(-9deg) scale(.83); filter:saturate(.88); }
+    .project-card[data-pos="next"] { z-index:1; transform:translateX(76%) rotate(8deg) scale(.83); filter:saturate(.88); }
+    .project-card[data-pos="hidden"] { z-index:0; opacity:0; pointer-events:none; transform:scale(.7); }
+    .project-card.leaving-next { transform:translateX(115%) rotate(18deg) scale(.72); opacity:0; }
+    .project-card.leaving-prev { transform:translateX(-115%) rotate(-18deg) scale(.72); opacity:0; }
+    .stamp { position:absolute; top:25px; right:25px; padding:4px 6px; border:1px dashed #956f54; color:#80644d; font:600 10px 'Caveat',cursive; transform:rotate(8deg); }
+    .preview { position:relative; height:49%; min-height:190px; margin-top:12px; border:7px solid #fff; border-radius:7px; overflow:hidden; background:linear-gradient(135deg,var(--light),#ede5fb); box-shadow:0 4px 10px #49372124; display:grid; place-items:center; }
+    .preview::before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 75% 22%,#fff9,transparent 18%),linear-gradient(135deg,transparent 50%,#ffffff66); }
+    .mockup { position:relative; z-index:1; width:36%; min-width:128px; height:88%; border:5px solid #222633; border-radius:23px; background:#f8f7ff; box-shadow:0 12px 16px #22263338; padding:12px 9px; display:flex; flex-direction:column; gap:8px; overflow:hidden; }
+    .mockup-wide { width:74%; min-width:0; height:76%; border-radius:6px; border:0; padding:12px; }
+    .mock-top { height:12px; border-radius:8px; background:#d8d0eb; }
+    .mock-hero { height:36%; border-radius:9px; background:linear-gradient(130deg,var(--accent),#fff); display:grid; place-items:center; color:white; font-size:20px; font-weight:800; }
+    .mock-row { display:flex; gap:6px; }
+    .mock-chip { height:22px; flex:1; border-radius:7px; background:#eee9f6; }
+    .mock-line { height:6px; width:80%; border-radius:6px; background:#d9d4df; }
+    .preview-label { position:absolute; z-index:2; left:15px; bottom:11px; color:#464050; font-weight:800; letter-spacing:.12em; font-size:clamp(11px,1.3vw,16px); }
+    .project-title { margin:13px 0 3px; font:700 clamp(24px,3vw,34px)/1 'Caveat',cursive; color:#302820; }
+    .project-desc { margin:0; font-size:clamp(12px,1.4vw,15px); line-height:1.35; color:#51483d; max-width:42ch; }
+    .card-meta { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin-top:9px; font-size:13px; }
+    .skill { background:#c8ead4; padding:5px 9px; border-radius:5px; font-weight:600; }
+    .card-foot { margin-top:auto; padding-top:9px; border-top:1px solid #d8cbb5; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .counter { font:600 17px 'Caveat',cursive; }
+    .explore { border:0; color:white; background:#38342f; border-radius:99px; padding:10px 15px; font-size:13px; text-decoration:none; box-shadow:0 3px 6px #30282030; transition:transform .2s; }
+    .explore:hover { transform:translateY(-2px); }
+    .arrow { position:absolute; z-index:5; top:50%; transform:translateY(-50%); width:48px; height:48px; border:0; border-radius:50%; color:#544534; background:#fff8e8d9; box-shadow:0 5px 14px #503b2630; font-size:28px; cursor:pointer; transition:transform .2s; }
+    .arrow:hover { transform:translateY(-50%) scale(1.08); }
+    .arrow.prev { left:0; }.arrow.next { right:0; }
+    .deck-hint { margin:13px auto 0; text-align:center; color:#524536; font:600 19px 'Caveat',cursive; }
+    .dots { display:flex; justify-content:center; gap:9px; margin:0 0 4px; }
+    .dot { width:10px; height:10px; padding:0; border-radius:50%; border:1px solid #6b5b4a; background:transparent; cursor:pointer; }
+    .dot.active { background:#4d4339; }
+    .scene-enter { animation:sceneIn .75s cubic-bezier(.2,.85,.25,1) both; }
+    .deal-in { animation:deal .7s cubic-bezier(.18,.9,.28,1.25) both; }
+    @keyframes sceneIn { from {opacity:0; transform:scale(1.035) translateY(18px)} to {opacity:1; transform:none} }
+    @keyframes deal { from {opacity:0; transform:translateY(48px) rotate(8deg) scale(.82)} to {opacity:1; transform:rotate(var(--tilt,0deg)) scale(1)} }
+    @media(max-width:700px) { .projects-scene { min-height:100svh; padding:16px 13px 20px; } .page-title { top:15px; } .filter-row { gap:7px; margin-top:20px; } .filter { padding:7px 10px; font-size:13px; } .stack-wrap { height:58svh; min-height:410px; margin-top:22px; } .project-card { width:min(82%,440px); padding:15px 15px 13px; min-height:400px; max-height:520px; } .project-card[data-pos="prev"] { transform:translateX(-62%) rotate(-9deg) scale(.78); } .project-card[data-pos="next"] { transform:translateX(62%) rotate(8deg) scale(.78); } .preview { min-height:175px; height:46%; } .arrow { width:38px; height:38px; font-size:23px; } .arrow.prev { left:-5px; }.arrow.next { right:-5px; } .notebook { width:82%; } .mug { top:35%; left:-3%; }.plant { top:27%; right:-4%; } }
+    @media(max-height:700px) and (min-width:701px) { .projects-scene { padding-top:16px; } .filter-row { margin-top:12px; } .stack-wrap { height:58vh; min-height:365px; margin-top:16px; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <main class="projects-scene scene-enter" id="scene">
+    <div class="window"></div><span class="sunleaf">🌿</span>
+    <div class="desk-props" aria-hidden="true"><span class="prop brushes">🖌️</span><span class="prop mug">☕</span><span class="prop plant">🪴</span><span class="prop palette">🎨</span></div>
+    <a class="back-link" href="./index.html" aria-label="Back to home">←</a>
+    <h1 class="page-title">My Projects <span class="title-spark">✧<br>✦</span></h1>
+    <div class="filter-row" role="group" aria-label="Filter projects">
+      <button class="filter" data-filter="all" aria-pressed="true">All</button>
+      <button class="filter" data-filter="uiux" aria-pressed="false">▷ UI/UX</button>
+      <button class="filter" data-filter="motion" aria-pressed="false">✦ Motion</button>
+      <button class="filter" data-filter="video" aria-pressed="false">▣ Video</button>
+      <button class="filter" data-filter="web" aria-pressed="false">&lt;/&gt; Web</button>
+    </div>
+    <section class="stack-wrap" aria-label="Project carousel">
+      <div class="notebook one"></div><div class="notebook two"></div>
+      <button class="arrow prev" aria-label="Previous project">‹</button>
+      <div id="cardDeck" style="display:contents"></div>
+      <button class="arrow next" aria-label="Next project">›</button>
+    </section>
+    <div class="dots" id="dots" aria-label="Project pages"></div>
+    <p class="deck-hint">✧ &nbsp; Swipe to explore &nbsp; ✦</p>
+  </main>
+<script>
+  const projects = [
+    { category:'uiux', title:'Fintech Mobile Redesign', short:'PayFlow Fintech App', description:'A seamless, intuitive digital banking & investment app for Gen-Z.', skill:'▷ UI/UX Design', tool:'Figma', year:'2026', accent:'#8c75ef', light:'#e7e1fb', kind:'phone', url:'#' },
+    { category:'motion', title:'Brand Motion System', short:'Motion identity', description:'A playful motion language bringing a bright new brand to life.', skill:'✦ Motion', tool:'After Effects', year:'2025', accent:'#e5a5d6', light:'#f6e5f3', kind:'motion', url:'#' },
+    { category:'web', title:'Creative Studio Website', short:'Portfolio Website', description:'A warm, editorial website for an independent creative studio.', skill:'&lt;/&gt; Web', tool:'Figma • Webflow', year:'2025', accent:'#6fc6c1', light:'#dff4ef', kind:'web', url:'#' },
+    { category:'video', title:'Short Film — Golden Hour', short:'A little film', description:'A cinematic portrait of slow mornings, light, and making things by hand.', skill:'▣ Video', tool:'Premiere Pro', year:'2024', accent:'#edb565', light:'#f8ead2', kind:'video', url:'#' }
+  ];
+  const deck=document.getElementById('cardDeck'), dots=document.getElementById('dots');
+  let visible=[], active=0, startX=0, dragging=false;
+  function cardMarkup(p,i) {
+    const wide=p.kind==='web';
+    return `<article class="project-card deal-in" data-index="${i}" style="--tilt:${[-.6,.4,-.2,.7][i%4]}deg;animation-delay:${i*90}ms" data-pos="hidden">
+      <span class="stamp">POST<br>✉</span>
+      <div class="preview" style="--accent:${p.accent};--light:${p.light}">
+        <div class="mockup ${wide?'mockup-wide':''}"><div class="mock-top"></div><div class="mock-hero" style="--accent:${p.accent}">${p.kind==='phone'?'PayFlow':p.kind==='motion'?'✦':p.kind==='web'?'STUDIO': '▶'}</div><div class="mock-row"><div class="mock-chip"></div><div class="mock-chip"></div><div class="mock-chip"></div></div><div class="mock-line"></div><div class="mock-line" style="width:58%"></div></div>
+        <span class="preview-label">${p.short.toUpperCase()}</span></div>
+      <h2 class="project-title">${p.title}</h2><p class="project-desc">${p.description}</p>
+      <div class="card-meta"><span class="skill">${p.skill}</span><span>${p.tool} • ${p.year}</span></div>
+      <div class="card-foot"><span class="counter">${String(i+1).padStart(2,'0')} / ${String(visible.length).padStart(2,'0')}</span><a class="explore" href="${p.url}">Explore Work →</a></div>
+    </article>`;
+  }
+  function render(direction='next') {
+    deck.innerHTML=visible.map(cardMarkup).join('');
+    const cards=[...deck.querySelectorAll('.project-card')];
+    cards.forEach((card,i)=>{
+      let pos='hidden';
+      if(i===active) pos='active';
+      else if(i===(active-1+cards.length)%cards.length) pos='prev';
+      else if(i===(active+1)%cards.length) pos='next';
+      card.dataset.pos=pos;
+    });
+    dots.innerHTML=visible.map((_,i)=>`<button class="dot ${i===active?'active':''}" aria-label="Go to project ${i+1}" data-dot="${i}"></button>`).join('');
+    dots.querySelectorAll('.dot').forEach(dot=>dot.addEventListener('click',()=>{active=Number(dot.dataset.dot);render();}));
+  }
+  function filter(category) {
+    document.querySelectorAll('.filter').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.filter===category)));
+    visible=projects.filter(p=>category==='all'||p.category===category); active=0;
+    render();
+  }
+  function step(dir) { if(visible.length<2)return; const card=deck.querySelector(`[data-index="${visible[active].__id}"]`)||deck.querySelector('.project-card[data-pos="active"]'); if(card){card.classList.remove('leaving-next','leaving-prev');void card.offsetWidth;card.classList.add(dir>0?'leaving-next':'leaving-prev');} setTimeout(()=>{active=(active+dir+visible.length)%visible.length;render();},170); }
+  document.querySelectorAll('.filter').forEach(btn=>btn.addEventListener('click',()=>filter(btn.dataset.filter)));
+  document.querySelector('.arrow.prev').addEventListener('click',()=>step(-1));
+  document.querySelector('.arrow.next').addEventListener('click',()=>step(1));
+  const wrap=document.querySelector('.stack-wrap');
+  wrap.addEventListener('pointerdown',e=>{if(e.target.closest('button,a'))return;startX=e.clientX;dragging=true;wrap.setPointerCapture(e.pointerId);});
+  wrap.addEventListener('pointerup',e=>{if(!dragging)return;dragging=false;const dx=e.clientX-startX;if(Math.abs(dx)>45)step(dx<0?1:-1);});
+  wrap.addEventListener('pointercancel',()=>dragging=false);
+  window.addEventListener('keydown',e=>{if(e.key==='ArrowRight')step(1);if(e.key==='ArrowLeft')step(-1);});
+  filter('all');
+</script>
+</body>
+</html>
