@@ -7,14 +7,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=4" />
+  <link rel="stylesheet" href="./style.css?v=5" />
 </head>
 <body>
-
   <main class="viewport">
     <div class="canvas">
-
-      <!-- Upper Hero Cluster -->
       <section class="hero-cluster">
         <div class="status-pill">
           <div class="avatar-ring">
@@ -29,12 +26,12 @@
         </div>
 
         <div class="headline-stage" id="headlineStage">
+          <svg class="web-underlay" id="webUnderlay" aria-hidden="true"></svg>
           <h1 class="hero-title" id="heroTitle">
             DESIGN THAT<br>
             MAKES PEOPLE<br>
             LOOK TWICE
           </h1>
-
           <svg class="web-overlay" id="webOverlay" aria-hidden="true"></svg>
 
           <a href="#resume" class="resume-btn">
@@ -120,7 +117,6 @@
           <span>Social</span>
         </a>
       </nav>
-
     </div>
   </main>
 
@@ -128,51 +124,52 @@
     function renderTrueSpiderStrings() {
       const stage = document.getElementById('headlineStage');
       const title = document.getElementById('heroTitle');
-      const svg = document.getElementById('webOverlay');
+      const underSvg = document.getElementById('webUnderlay');
+      const overSvg = document.getElementById('webOverlay');
       const pills = document.querySelectorAll('.role-pill');
 
-      if (!stage || !title || !svg) return;
+      if (!stage || !title || !underSvg || !overSvg) return;
 
       const stageRect = stage.getBoundingClientRect();
       const titleRect = title.getBoundingClientRect();
+      const vb = `0 0 ${stageRect.width} ${stageRect.height}`;
+      underSvg.setAttribute('viewBox', vb);
+      overSvg.setAttribute('viewBox', vb);
 
-      svg.setAttribute('viewBox', `0 0 ${stageRect.width} ${stageRect.height}`);
-
-      let html = `
+      const defs = `
         <defs>
           <filter id="spiderSilkShadow" x="-25%" y="-25%" width="150%" height="150%">
-            <feDropShadow dx="0" dy="1.2" stdDeviation="1.3" flood-color="#121c30" flood-opacity="0.36" />
+            <feDropShadow dx="0" dy="1.1" stdDeviation="1.1" flood-color="#0f172a" flood-opacity="0.35" />
           </filter>
         </defs>
-        <g filter="url(#spiderSilkShadow)">
       `;
 
+      let underHtml = `${defs}<g filter="url(#spiderSilkShadow)">`;
+      let overHtml = `${defs}<g filter="url(#spiderSilkShadow)">`;
       const tLeft = titleRect.left - stageRect.left;
       const tTop = titleRect.top - stageRect.top;
       const tW = titleRect.width;
       const tH = titleRect.height;
-
       const lookTwiceY = tTop + tH * 0.78;
       const webClusters = [
-        { cx: tLeft + tW * 0.16, cy: lookTwiceY, r: 34, aStart: -25, aEnd: 115 },
-        { cx: tLeft + tW * 0.39, cy: lookTwiceY + 4, r: 30, aStart: 15, aEnd: 155 },
-        { cx: tLeft + tW * 0.63, cy: lookTwiceY + 4, r: 30, aStart: 25, aEnd: 165 },
-        { cx: tLeft + tW * 0.84, cy: lookTwiceY, r: 34, aStart: 65, aEnd: 205 }
+        { cx: tLeft + tW * 0.14, cy: lookTwiceY - 2, r: 34, aStart: -20, aEnd: 110 },
+        { cx: tLeft + tW * 0.38, cy: lookTwiceY + 4, r: 28, aStart: 15, aEnd: 155 },
+        { cx: tLeft + tW * 0.63, cy: lookTwiceY + 4, r: 28, aStart: 25, aEnd: 165 },
+        { cx: tLeft + tW * 0.86, cy: lookTwiceY - 2, r: 34, aStart: 70, aEnd: 200 }
       ];
 
       webClusters.forEach((wc) => {
-        const spokeCount = 5;
         const tips = [];
-        for (let i = 0; i < spokeCount; i++) {
-          const deg = wc.aStart + ((wc.aEnd - wc.aStart) * i) / (spokeCount - 1);
+        for (let i = 0; i < 5; i++) {
+          const deg = wc.aStart + ((wc.aEnd - wc.aStart) * i) / 4;
           const rad = (deg * Math.PI) / 180;
           const tx = wc.cx + Math.cos(rad) * wc.r;
           const ty = wc.cy + Math.sin(rad) * wc.r;
           tips.push({ x: tx, y: ty });
-          html += `<line x1="${wc.cx}" y1="${wc.cy}" x2="${tx}" y2="${ty}" stroke="rgba(255,255,255,0.62)" stroke-width="0.95" />`;
+          overHtml += `<line x1="${wc.cx}" y1="${wc.cy}" x2="${tx}" y2="${ty}" stroke="rgba(255,255,255,0.68)" stroke-width="0.95" />`;
         }
 
-        [0.32, 0.54, 0.76, 0.96].forEach((ringScale) => {
+        [0.34, 0.56, 0.78, 0.98].forEach((ringScale) => {
           for (let i = 0; i < tips.length - 1; i++) {
             const pA = {
               x: wc.cx + (tips[i].x - wc.cx) * ringScale,
@@ -184,7 +181,7 @@
             };
             const midX = (pA.x + pB.x) / 2 - ((pA.x + pB.x) / 2 - wc.cx) * 0.16;
             const midY = (pA.y + pB.y) / 2 - ((pA.y + pB.y) / 2 - wc.cy) * 0.16 + 2;
-            html += `<path d="M ${pA.x} ${pA.y} Q ${midX} ${midY} ${pB.x} ${pB.y}" stroke="rgba(255,255,255,0.52)" stroke-width="0.8" fill="none" />`;
+            overHtml += `<path d="M ${pA.x} ${pA.y} Q ${midX} ${midY} ${pB.x} ${pB.y}" stroke="rgba(255,255,255,0.58)" stroke-width="0.8" fill="none" />`;
           }
         });
       });
@@ -200,64 +197,60 @@
       pills.forEach((pill, idx) => {
         const pillRect = pill.getBoundingClientRect();
         const anchorRatio = parseFloat(pill.dataset.anchorX || '0.5');
-
         const p0 = {
           x: tLeft + tW * anchorRatio,
-          y: tTop + tH * 0.83
+          y: tTop + tH * 0.88
         };
-
         const rotDeg = parseFloat(getComputedStyle(pill).getPropertyValue('--rot')) || 0;
         const rotRad = (rotDeg * Math.PI) / 180;
         const pillCenterX = pillRect.left - stageRect.left + pillRect.width / 2;
         const pillCenterY = pillRect.top - stageRect.top + pillRect.height / 2;
         const halfH = pill.offsetHeight / 2;
-
-        const hookX = pillCenterX + Math.sin(rotRad) * (halfH - 4);
-        const hookY = pillCenterY - Math.cos(rotRad) * (halfH - 4);
-        const p2 = { x: hookX, y: hookY };
-
-        const swayDir = idx % 2 === 0 ? -14 : 14;
+        const p2 = {
+          x: pillCenterX + Math.sin(rotRad) * (halfH - 6),
+          y: pillCenterY - Math.cos(rotRad) * (halfH - 6)
+        };
+        const swayDir = idx % 2 === 0 ? -13 : 13;
         const p1 = {
           x: (p0.x + p2.x) / 2 + swayDir,
           y: (p0.y + p2.y) / 2
         };
 
-        const joinPt = bezierPt(p0, p1, p2, 0.16);
-        [-16, -8, 8, 16].forEach((offset) => {
-          html += `<path d="M ${p0.x + offset} ${p0.y - 4} Q ${p0.x + offset * 0.35} ${p0.y + 12} ${joinPt.x} ${joinPt.y}" stroke="rgba(255,255,255,0.58)" stroke-width="0.85" fill="none" />`;
+        const joinPt = bezierPt(p0, p1, p2, 0.14);
+        [-14, -7, 7, 14].forEach((offset) => {
+          overHtml += `<path d="M ${p0.x + offset} ${p0.y - 3} Q ${p0.x + offset * 0.35} ${p0.y + 10} ${joinPt.x} ${joinPt.y}" stroke="rgba(255,255,255,0.65)" stroke-width="0.85" fill="none" />`;
         });
 
-        html += `<path d="M ${p0.x} ${p0.y} Q ${p1.x} ${p1.y} ${p2.x} ${p2.y}" stroke="rgba(255,255,255,0.9)" stroke-width="1.4" fill="none" />`;
-
+        underHtml += `<path d="M ${p0.x} ${p0.y} Q ${p1.x} ${p1.y} ${p2.x} ${p2.y}" stroke="rgba(255,255,255,0.92)" stroke-width="1.4" fill="none" />`;
         let helixD = `M ${p0.x} ${p0.y}`;
-        const steps = 18;
-        for (let s = 1; s <= steps; s++) {
-          const t = s / steps;
+        for (let s = 1; s <= 18; s++) {
+          const t = s / 18;
           const pt = bezierPt(p0, p1, p2, t);
-          const wave = Math.sin(t * Math.PI * 5) * 2.4 * Math.sin(t * Math.PI);
+          const wave = Math.sin(t * Math.PI * 5) * 2.3 * Math.sin(t * Math.PI);
           helixD += ` L ${pt.x + wave} ${pt.y}`;
         }
-        html += `<path d="${helixD}" stroke="rgba(255,255,255,0.48)" stroke-width="0.8" fill="none" />`;
+        underHtml += `<path d="${helixD}" stroke="rgba(255,255,255,0.5)" stroke-width="0.8" fill="none" />`;
 
-        [0.32, 0.56, 0.78].forEach((t, dIdx) => {
+        [0.3, 0.54, 0.76].forEach((t, dIdx) => {
           const pt = bezierPt(p0, p1, p2, t);
-          html += `<circle cx="${pt.x}" cy="${pt.y}" r="${dIdx === 1 ? 1.8 : 1.3}" fill="rgba(255,255,255,0.95)" />`;
+          underHtml += `<circle cx="${pt.x}" cy="${pt.y}" r="${dIdx === 1 ? 1.8 : 1.3}" fill="rgba(255,255,255,0.95)" />`;
         });
 
-        const rimX = pillCenterX + Math.sin(rotRad) * (halfH - 1);
-        const rimY = pillCenterY - Math.cos(rotRad) * (halfH - 1);
-        html += `<circle cx="${rimX}" cy="${rimY}" r="2.6" fill="none" stroke="rgba(255,255,255,0.95)" stroke-width="1.3" />`;
-        html += `<circle cx="${rimX}" cy="${rimY}" r="1.2" fill="#ffffff" />`;
+        const rimX = pillCenterX + Math.sin(rotRad) * halfH;
+        const rimY = pillCenterY - Math.cos(rotRad) * halfH;
+        overHtml += `<circle cx="${rimX}" cy="${rimY}" r="2.5" fill="none" stroke="rgba(255,255,255,0.95)" stroke-width="1.25" />`;
+        overHtml += `<circle cx="${rimX}" cy="${rimY}" r="1.15" fill="#ffffff" />`;
       });
 
-      html += `</g>`;
-      svg.innerHTML = html;
+      underHtml += `</g>`;
+      overHtml += `</g>`;
+      underSvg.innerHTML = underHtml;
+      overSvg.innerHTML = overHtml;
     }
 
     window.addEventListener('load', renderTrueSpiderStrings);
     window.addEventListener('resize', renderTrueSpiderStrings);
     setInterval(renderTrueSpiderStrings, 45);
   </script>
-
 </body>
 </html>
