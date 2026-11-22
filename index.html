@@ -2,96 +2,212 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>ALIF. — Portfolio</title>
   <link rel="preconnect" href="https://googleapis.com">
   <link rel="preconnect" href="https://gstatic.com" crossorigin>
-  <link href="https://googleapis.com/css2?family=Inter:wght@500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <main class="mobile-screen">
-    <!-- Top Section -->
-    <div class="content-wrapper">
-      <div class="status-pill">
-        <img src="avatar.jpg" alt="Alif" class="avatar" />
-        <span class="brand-name">ALIF.</span>
-        <span class="availability">
-          <span class="status-dot"></span>
-          Available for work
-        </span>
-      </div>
+  <main class="viewport">
+    <div class="canvas">
 
-      <h1 class="hero-title">
-        Design That<br />
-        Makes People<br />
-        Look Twice
-      </h1>
+      <!-- Upper Hero Cluster -->
+      <section class="hero-cluster">
+        <!-- Top Status Pill -->
+        <div class="status-pill">
+          <div class="avatar-ring">
+            <img src="avatar.jpg" alt="Alif" class="avatar-img" onerror="this.style.display='none'" />
+            <span class="avatar-fallback">A</span>
+          </div>
+          <span class="brand-name">ALIF.</span>
+          <div class="status-indicator">
+            <span class="pulse-dot"></span>
+            <span class="status-text">Available for work</span>
+          </div>
+        </div>
 
-      <a href="#resume" class="resume-btn">
-        Resume
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-          <polyline points="12 5 19 12 12 19"></polyline>
-        </svg>
-      </a>
+        <!-- Headline + Web Strands Wrapper -->
+        <div class="headline-stage" id="headlineStage">
+          <h1 class="hero-title" id="heroTitle">
+            DESIGN THAT<br>
+            MAKES PEOPLE<br>
+            LOOK TWICE
+          </h1>
+
+          <!-- Dynamic SVG Silk/Cobweb Layer -->
+          <svg class="web-overlay" id="webOverlay" aria-hidden="true"></svg>
+
+          <!-- Center CTA -->
+          <a href="#resume" class="resume-btn">
+            <span>Resume</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </a>
+
+          <!-- Hanging Role Pills -->
+          <div class="roles-field">
+            <div class="role-pill pill-uiux" data-anchor-x="0.28" data-anchor-y="0.58" style="--rot: -7.5deg; --delay: 0s;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="6 4 20 12 6 20 6 4"></polygon>
+              </svg>
+              <span>UI/UX Designer</span>
+            </div>
+
+            <div class="role-pill pill-motion" data-anchor-x="0.72" data-anchor-y="0.58" style="--rot: 5.5deg; --delay: -1.4s;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2.5"></rect>
+                <path d="M2 9h20"></path>
+                <path d="m7 4 3 5"></path>
+                <path d="m14 4 3 5"></path>
+              </svg>
+              <span>Motion Designer</span>
+            </div>
+
+            <div class="role-pill pill-video" data-anchor-x="0.38" data-anchor-y="0.58" style="--rot: 4.5deg; --delay: -2.2s;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 21 12 15 6"></polyline>
+                <polyline points="9 6 3 12 9 18"></polyline>
+              </svg>
+              <span>Video Editor</span>
+            </div>
+
+            <div class="role-pill pill-web" data-anchor-x="0.64" data-anchor-y="0.58" style="--rot: -5.5deg; --delay: -0.8s;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="16" rx="2.5"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+              </svg>
+              <span>Web Developer</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom Glass Dock -->
+      <nav class="glass-dock" aria-label="Primary Navigation">
+        <a href="#projects" class="dock-item">
+          <div class="dock-tile tile-projects">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+          </div>
+          <span>Projects</span>
+        </a>
+
+        <a href="#contact" class="dock-item">
+          <div class="dock-tile tile-contact">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </svg>
+          </div>
+          <span>Contact</span>
+        </a>
+
+        <a href="#about" class="dock-item">
+          <div class="dock-tile tile-about">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <span>About</span>
+        </a>
+
+        <a href="#social" class="dock-item">
+          <div class="dock-tile tile-social">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+          </div>
+          <span>Social</span>
+        </a>
+      </nav>
+
     </div>
-
-    <!-- Floating Role Pills -->
-    <div class="roles-stage">
-      <div class="role-pill role-uiux">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-        UI/UX Designer
-      </div>
-
-      <div class="role-pill role-motion">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
-        Motion Designer
-      </div>
-
-      <div class="role-pill role-video">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-        Video Editor
-      </div>
-
-      <div class="role-pill role-web">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line></svg>
-        Web Developer
-      </div>
-    </div>
-
-    <!-- Bottom Dock -->
-    <nav class="bottom-dock">
-      <a href="#projects" class="dock-item">
-        <div class="dock-icon icon-projects">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-        </div>
-        <span>Projects</span>
-      </a>
-
-      <a href="#contact" class="dock-item">
-        <div class="dock-icon icon-contact">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-        </div>
-        <span>Contact</span>
-      </a>
-
-      <a href="#about" class="dock-item">
-        <div class="dock-icon icon-about">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-        </div>
-        <span>About</span>
-      </a>
-
-      <a href="#social" class="dock-item">
-        <div class="dock-icon icon-social">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-        </div>
-        <span>Social</span>
-      </a>
-    </nav>
   </main>
+
+  <script>
+    // Dynamically draws delicate silk/cobweb suspension strands connecting the headline to each hanging badge
+    function renderWebThreads() {
+      const stage = document.getElementById('headlineStage');
+      const title = document.getElementById('heroTitle');
+      const svg = document.getElementById('webOverlay');
+      const pills = document.querySelectorAll('.role-pill');
+
+      if (!stage || !title || !svg) return;
+
+      const stageRect = stage.getBoundingClientRect();
+      const titleRect = title.getBoundingClientRect();
+
+      svg.setAttribute('viewBox', `0 0 ${stageRect.width} ${stageRect.height}`);
+      svg.innerHTML = '';
+
+      const titleBottomY = titleRect.bottom - stageRect.top - 6;
+      const titleLeftX = titleRect.left - stageRect.left;
+      const titleWidth = titleRect.width;
+
+      pills.forEach((pill) => {
+        const pillRect = pill.getBoundingClientRect();
+        const anchorRatio = parseFloat(pill.dataset.anchorX || '0.5');
+
+        const startX = titleLeftX + titleWidth * anchorRatio;
+        const startY = titleBottomY;
+
+        const targetLeftX = pillRect.left - stageRect.left + pillRect.width * 0.22;
+        const targetRightX = pillRect.left - stageRect.left + pillRect.width * 0.78;
+        const targetY = pillRect.top - stageRect.top + 6;
+
+        // Draw primary left & right silk suspension threads with subtle natural sag
+        const strands = [
+          { sx: startX - 14, sy: startY, ex: targetLeftX, ey: targetY, sag: -10, opacity: 0.55 },
+          { sx: startX + 14, sy: startY, ex: targetRightX, ey: targetY, sag: 12, opacity: 0.45 },
+          { sx: startX, sy: startY - 4, ex: (targetLeftX + targetRightX) / 2, ey: targetY, sag: 4, opacity: 0.3 }
+        ];
+
+        strands.forEach((s) => {
+          const midX = (s.sx + s.ex) / 2 + s.sag;
+          const midY = (s.sy + s.ey) / 2;
+          const path = document.createElementNS('http://w3.org', 'path');
+          path.setAttribute('d', `M ${s.sx} ${s.sy} Q ${midX} ${midY} ${s.ex} ${s.ey}`);
+          path.setAttribute('stroke', `rgba(255, 255, 255, ${s.opacity})`);
+          path.setAttribute('stroke-width', '1.1');
+          path.setAttribute('fill', 'none');
+          svg.appendChild(path);
+        });
+
+        // Draw fine cross-webbing near the top anchor
+        for (let i = 1; i <= 3; i++) {
+          const t = i * 0.14;
+          const x1 = (startX - 14) + (targetLeftX - (startX - 14)) * t;
+          const y1 = startY + (targetY - startY) * t;
+          const x2 = (startX + 14) + (targetRightX - (startX + 14)) * t;
+          const y2 = startY + (targetY - startY) * t;
+
+          const cross = document.createElementNS('http://w3.org', 'path');
+          cross.setAttribute('d', `M ${x1} ${y1} Q ${(x1 + x2) / 2} ${(y1 + y2) / 2 + 5} ${x2} ${y2}`);
+          cross.setAttribute('stroke', 'rgba(255, 255, 255, 0.32)');
+          cross.setAttribute('stroke-width', '0.85');
+          cross.setAttribute('fill', 'none');
+          svg.appendChild(cross);
+        }
+      });
+    }
+
+    window.addEventListener('load', renderWebThreads);
+    window.addEventListener('resize', renderWebThreads);
+    // Re-run smoothly during gentle sway
+    setInterval(renderWebThreads, 60);
+  </script>
 
 </body>
 </html>
