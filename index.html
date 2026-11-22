@@ -137,8 +137,7 @@
   </main>
 
   <script>
-    // Dynamically draws delicate silk/cobweb suspension strands connecting the headline to each hanging badge
-    function renderWebThreads() {
+    function renderSpiderWebs() {
       const stage = document.getElementById('headlineStage');
       const title = document.getElementById('heroTitle');
       const svg = document.getElementById('webOverlay');
@@ -150,63 +149,132 @@
       const titleRect = title.getBoundingClientRect();
 
       svg.setAttribute('viewBox', `0 0 ${stageRect.width} ${stageRect.height}`);
-      svg.innerHTML = '';
 
-      const titleBottomY = titleRect.bottom - stageRect.top - 6;
+      let html = `
+        <defs>
+          <filter id="silkGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="1" stdDeviation="1.2" flood-color="rgba(30, 45, 70, 0.28)" />
+          </filter>
+        </defs>
+        <g filter="url(#silkGlow)">
+      `;
+
+      const titleBottomY = titleRect.bottom - stageRect.top - 5;
       const titleLeftX = titleRect.left - stageRect.left;
       const titleWidth = titleRect.width;
 
-      pills.forEach((pill) => {
+      // Delicate wispy cobweb strands between the letters of "LOOK TWICE"
+      const letterWebs = [
+        { x1: 0.14, y1: 0.72, x2: 0.28, y2: 0.88, sag: 8 },
+        { x1: 0.34, y1: 0.74, x2: 0.50, y2: 0.85, sag: 10 },
+        { x1: 0.55, y1: 0.72, x2: 0.72, y2: 0.88, sag: 9 },
+        { x1: 0.74, y1: 0.75, x2: 0.89, y2: 0.86, sag: 7 }
+      ];
+
+      letterWebs.forEach((lw) => {
+        const sx = titleLeftX + titleWidth * lw.x1;
+        const sy = titleRect.top - stageRect.top + titleRect.height * lw.y1;
+        const ex = titleLeftX + titleWidth * lw.x2;
+        const ey = titleRect.top - stageRect.top + titleRect.height * lw.y2;
+        const mx = (sx + ex) / 2;
+        const my = (sy + ey) / 2 + lw.sag;
+
+        html += `<path d="M ${sx} ${sy} Q ${mx} ${my} ${ex} ${ey}" stroke="rgba(255,255,255,0.55)" stroke-width="0.9" fill="none" />`;
+        html += `<path d="M ${sx + 4} ${sy + 5} Q ${mx} ${my + 6} ${ex - 4} ${ey + 4}" stroke="rgba(255,255,255,0.35)" stroke-width="0.7" fill="none" />`;
+      });
+
+      function qPoint(p0, p1, p2, t) {
+        const inv = 1 - t;
+        return {
+          x: inv * inv * p0.x + 2 * inv * t * p1.x + t * t * p2.x,
+          y: inv * inv * p0.y + 2 * inv * t * p1.y + t * t * p2.y
+        };
+      }
+
+      pills.forEach((pill, idx) => {
         const pillRect = pill.getBoundingClientRect();
         const anchorRatio = parseFloat(pill.dataset.anchorX || '0.5');
 
-        const startX = titleLeftX + titleWidth * anchorRatio;
-        const startY = titleBottomY;
+        const rootX = titleLeftX + titleWidth * anchorRatio;
+        const rootY = titleBottomY;
 
-        const targetLeftX = pillRect.left - stageRect.left + pillRect.width * 0.22;
-        const targetRightX = pillRect.left - stageRect.left + pillRect.width * 0.78;
-        const targetY = pillRect.top - stageRect.top + 6;
+        const pLeft = {
+          x: pillRect.left - stageRect.left + pillRect.width * 0.16,
+          y: pillRect.top - stageRect.top + (idx % 2 === 0 ? 10 : 4)
+        };
+        const pMidLeft = {
+          x: pillRect.left - stageRect.left + pillRect.width * 0.38,
+          y: pillRect.top - stageRect.top + 6
+        };
+        const pMidRight = {
+          x: pillRect.left - stageRect.left + pillRect.width * 0.64,
+          y: pillRect.top - stageRect.top + 6
+        };
+        const pRight = {
+          x: pillRect.left - stageRect.left + pillRect.width * 0.85,
+          y: pillRect.top - stageRect.top + (idx % 2 === 0 ? 4 : 10)
+        };
 
-        // Draw primary left & right silk suspension threads with subtle natural sag
-        const strands = [
-          { sx: startX - 14, sy: startY, ex: targetLeftX, ey: targetY, sag: -10, opacity: 0.55 },
-          { sx: startX + 14, sy: startY, ex: targetRightX, ey: targetY, sag: 12, opacity: 0.45 },
-          { sx: startX, sy: startY - 4, ex: (targetLeftX + targetRightX) / 2, ey: targetY, sag: 4, opacity: 0.3 }
+        const radials = [
+          {
+            p0: { x: rootX - 22, y: rootY - 2 },
+            p1: { x: (rootX - 22 + pLeft.x) / 2 - 14, y: (rootY + pLeft.y) / 2 },
+            p2: pLeft,
+            w: 1.25,
+            op: 0.78
+          },
+          {
+            p0: { x: rootX - 6, y: rootY },
+            p1: { x: (rootX - 6 + pMidLeft.x) / 2 - 4, y: (rootY + pMidLeft.y) / 2 },
+            p2: pMidLeft,
+            w: 0.95,
+            op: 0.55
+          },
+          {
+            p0: { x: rootX + 8, y: rootY },
+            p1: { x: (rootX + 8 + pMidRight.x) / 2 + 5, y: (rootY + pMidRight.y) / 2 },
+            p2: pMidRight,
+            w: 0.95,
+            op: 0.55
+          },
+          {
+            p0: { x: rootX + 24, y: rootY - 2 },
+            p1: { x: (rootX + 24 + pRight.x) / 2 + 14, y: (rootY + pRight.y) / 2 },
+            p2: pRight,
+            w: 1.25,
+            op: 0.78
+          }
         ];
 
-        strands.forEach((s) => {
-          const midX = (s.sx + s.ex) / 2 + s.sag;
-          const midY = (s.sy + s.ey) / 2;
-          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-          path.setAttribute('d', `M ${s.sx} ${s.sy} Q ${midX} ${midY} ${s.ex} ${s.ey}`);
-          path.setAttribute('stroke', `rgba(255, 255, 255, ${s.opacity})`);
-          path.setAttribute('stroke-width', '1.1');
-          path.setAttribute('fill', 'none');
-          svg.appendChild(path);
+        radials.forEach((r) => {
+          html += `<path d="M ${r.p0.x} ${r.p0.y} Q ${r.p1.x} ${r.p1.y} ${r.p2.x} ${r.p2.y}" stroke="rgba(255,255,255,${r.op})" stroke-width="${r.w}" fill="none" />`;
+          html += `<circle cx="${r.p2.x}" cy="${r.p2.y}" r="1.5" fill="rgba(255,255,255,0.85)" />`;
+          html += `<circle cx="${r.p0.x}" cy="${r.p0.y}" r="1.3" fill="rgba(255,255,255,0.7)" />`;
         });
 
-        // Draw fine cross-webbing near the top anchor
-        for (let i = 1; i <= 3; i++) {
-          const t = i * 0.14;
-          const x1 = (startX - 14) + (targetLeftX - (startX - 14)) * t;
-          const y1 = startY + (targetY - startY) * t;
-          const x2 = (startX + 14) + (targetRightX - (startX + 14)) * t;
-          const y2 = startY + (targetY - startY) * t;
+        const rungs = [0.12, 0.24, 0.38, 0.54, 0.72, 0.88];
+        rungs.forEach((t, rIdx) => {
+          const pts = radials.map((r) => qPoint(r.p0, r.p1, r.p2, t));
+          const sag = 4 + rIdx * 1.4;
+          const op = Math.max(0.28, 0.68 - rIdx * 0.06);
 
-          const cross = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-          cross.setAttribute('d', `M ${x1} ${y1} Q ${(x1 + x2) / 2} ${(y1 + y2) / 2 + 5} ${x2} ${y2}`);
-          cross.setAttribute('stroke', 'rgba(255, 255, 255, 0.32)');
-          cross.setAttribute('stroke-width', '0.85');
-          cross.setAttribute('fill', 'none');
-          svg.appendChild(cross);
-        }
+          for (let j = 0; j < pts.length - 1; j++) {
+            const a = pts[j];
+            const b = pts[j + 1];
+            const cx = (a.x + b.x) / 2;
+            const cy = (a.y + b.y) / 2 + sag;
+            html += `<path d="M ${a.x} ${a.y} Q ${cx} ${cy} ${b.x} ${b.y}" stroke="rgba(255,255,255,${op})" stroke-width="0.9" fill="none" />`;
+          }
+        });
       });
+
+      html += `</g>`;
+      svg.innerHTML = html;
     }
 
-    window.addEventListener('load', renderWebThreads);
-    window.addEventListener('resize', renderWebThreads);
-    // Re-run smoothly during gentle sway
-    setInterval(renderWebThreads, 60);
+    window.addEventListener('load', renderSpiderWebs);
+    window.addEventListener('resize', renderSpiderWebs);
+    setInterval(renderSpiderWebs, 50);
   </script>
 
 </body>
