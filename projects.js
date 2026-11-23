@@ -6,7 +6,7 @@
   const chips = document.querySelectorAll(".chip");
   const allCards = Array.from(track.querySelectorAll(".card"));
 
-  let cards = allCards.slice(); // cards in the current filter
+  let cards = allCards.slice();
   let current = 0;
   const pad = (n) => String(n).padStart(2, "0");
 
@@ -19,7 +19,7 @@
         card.classList.remove("is-active");
         return;
       }
-      let d = (i - current + n) % n;      // distance from the front card (loops)
+      let d = (i - current + n) % n;
       if (d > n / 2) d -= n;
       card.dataset.pos = Math.abs(d) <= 2 ? String(d) : "off";
       card.classList.toggle("is-active", d === 0);
@@ -56,13 +56,13 @@
   prevBtn.addEventListener("click", prev);
   nextBtn.addEventListener("click", next);
 
-  // tap a side card to bring it to the front
   allCards.forEach((card) => {
     card.addEventListener("click", (e) => {
       if (moved) { e.preventDefault(); return; }
       if (!card.classList.contains("is-active")) {
         e.preventDefault();
-        goTo(cards.indexOf(card));
+        const index = cards.indexOf(card);
+        if (index !== -1) goTo(index);
       }
     });
   });
@@ -72,20 +72,23 @@
     if (e.key === "ArrowLeft") prev();
   });
 
-  // ---------- swipe / drag ----------
+  // Track horizontal swipes from anywhere on the page, not only over the cards.
   let startX = 0, startY = 0, dx = 0, dragging = false, moved = false;
 
-  track.addEventListener("pointerdown", (e) => {
+  document.addEventListener("pointerdown", (e) => {
     if (e.pointerType === "mouse" && e.button !== 0) return;
-    dragging = true; moved = false;
-    startX = e.clientX; startY = e.clientY; dx = 0;
+    dragging = true;
+    moved = false;
+    startX = e.clientX;
+    startY = e.clientY;
+    dx = 0;
   });
 
   window.addEventListener("pointermove", (e) => {
     if (!dragging) return;
     dx = e.clientX - startX;
     const dy = e.clientY - startY;
-    if (!moved && Math.abs(dx) > 6 && Math.abs(dx) > Math.abs(dy)) {
+    if (!moved && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) {
       moved = true;
       track.classList.add("is-dragging");
     }
@@ -100,13 +103,12 @@
     if (moved) {
       if (dx < -50) next();
       else if (dx > 50) prev();
-      setTimeout(() => (moved = false), 0);
+      setTimeout(() => { moved = false; }, 0);
     }
   }
   window.addEventListener("pointerup", endDrag);
   window.addEventListener("pointercancel", endDrag);
 
-  // ---------- filters ----------
   chips.forEach((chip) => {
     chip.addEventListener("click", () => {
       chips.forEach((c) => c.classList.remove("is-active"));
