@@ -1,6 +1,74 @@
-/* Keep carousel swaps responsive on mobile by avoiding unnecessary layer promotion
-   and removing the unused filter transition. */
+/* Smooth, responsive carousel motion. Keep the main movement on compositor-friendly
+   transforms/opacity, and avoid transition delays so every input feels immediate. */
 .card {
-  transition: transform 0.32s cubic-bezier(.22, .8, .26, 1), opacity 0.25s;
+  transition:
+    transform 560ms cubic-bezier(.2, .85, .25, 1),
+    opacity 360ms ease,
+    filter 360ms ease;
   will-change: auto;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* A light lift makes the active sheet feel like it comes forward with the stack. */
+.card .sheet {
+  transition:
+    transform 560ms cubic-bezier(.2, .85, .25, 1),
+    box-shadow 360ms ease;
+}
+.card.is-active .sheet {
+  transform: translateY(-2px);
+}
+.card:not(.is-active) .sheet {
+  transform: translateY(3px);
+}
+
+.card::before,
+.card::after {
+  transition:
+    opacity 360ms ease,
+    transform 560ms cubic-bezier(.2, .85, .25, 1);
+}
+
+/* Keep the controls and pagination feeling connected to every carousel change. */
+.dot {
+  transition:
+    background-color 260ms ease,
+    border-color 260ms ease,
+    transform 360ms cubic-bezier(.2, .85, .25, 1);
+}
+.dot.is-active {
+  transform: scale(1.18);
+}
+
+.nav,
+.chip,
+.explore {
+  transition:
+    transform 260ms cubic-bezier(.2, .85, .25, 1),
+    opacity 220ms ease,
+    filter 220ms ease,
+    background-color 220ms ease;
+}
+
+/* During a direct drag, follow the finger without easing; restore the glide on release. */
+.track.is-dragging .card,
+.track.is-dragging .card .sheet,
+.track.is-dragging .card::before,
+.track.is-dragging .card::after {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card .sheet,
+  .card::before,
+  .card::after,
+  .dot,
+  .nav,
+  .chip,
+  .explore {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }
