@@ -1,7 +1,9 @@
-/* Keep carousel movement cheap: animate only compositor-friendly properties and
-   promote card layers only while the user is actively dragging. */
+/* Keep carousel changes responsive on slower phones: animate only the card
+   transform/opacity, and keep the easing short so controls feel immediate. */
 .card {
-  transition: transform 300ms cubic-bezier(.2, .75, .25, 1), opacity 180ms ease;
+  transition:
+    transform 160ms cubic-bezier(.2, .75, .25, 1),
+    opacity 120ms ease;
   will-change: auto;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
@@ -9,32 +11,26 @@
 
 .card::before,
 .card::after {
-  transition: opacity 180ms ease;
+  transition: opacity 120ms ease;
 }
 
 .dot {
-  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    transform 120ms ease;
 }
-.dot.is-active { transform: scale(1.12); }
+.dot.is-active { transform: scale(1.1); }
 
-.track.is-dragging .card {
-  will-change: transform;
-}
-
+/* Enable layer promotion only during a finger drag to avoid excess GPU memory. */
+.track.is-dragging .card { will-change: transform; }
 .track.is-dragging .card,
 .track.is-dragging .card::before,
-.track.is-dragging .card::after {
-  transition: none;
-}
-
-@media (max-width: 600px) {
-  .card { transition-duration: 240ms, 150ms; }
-  .card::before,
-  .card::after { box-shadow: 0 3px 8px rgba(80, 55, 30, .1); }
-}
+.track.is-dragging .card::after { transition: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .card, .card::before, .card::after, .dot {
-    transition-duration: .01ms !important;
-  }
+  .card,
+  .card::before,
+  .card::after,
+  .dot { transition-duration: .01ms !important; }
 }
