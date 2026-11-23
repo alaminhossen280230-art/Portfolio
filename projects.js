@@ -8,7 +8,14 @@
 
   let cards = allCards.slice();
   let current = 0;
+  let startX = 0;
+  let startY = 0;
+  let dx = 0;
+  let dragging = false;
+  let moved = false;
+  let clickGuardTimer;
   const pad = (n) => String(n).padStart(2, "0");
+  const interactive = "button, input, select, textarea";
 
   function render() {
     const n = cards.length;
@@ -17,6 +24,7 @@
       if (i === -1) {
         card.dataset.pos = "hidden";
         card.classList.remove("is-active");
+        card.setAttribute("aria-hidden", "true");
         return;
       }
       let d = (i - current + n) % n;
@@ -58,7 +66,7 @@
 
   allCards.forEach((card) => {
     card.addEventListener("click", (e) => {
-      if (moved) { e.preventDefault(); return; }
+      if (moved) { e.preventDefault(); e.stopPropagation(); return; }
       if (!card.classList.contains("is-active")) {
         e.preventDefault();
         const index = cards.indexOf(card);
@@ -72,40 +80,44 @@
     if (e.key === "ArrowLeft") prev();
   });
 
-  // Track horizontal swipe intent page-wide, but avoid animating every card
-  // on every pointermove. Cards animate just once when the swipe ends.
-  let startX = 0, startY = 0, dx = 0, dragging = false, moved = false;
-  const interactive = "a, button, input, select, textarea";
-
+  // Allow horizontal swipes anywhere on the page (including over the cards),
+  // and make the stack follow the pointer immediately instead of waiting for release.
   document.addEventListener("pointerdown", (e) => {
-    if (e.pointerType === "mouse" && e.button !== 0) return;
-    if (e.target.closest(interactive)) return;
+    if ((e.pointerType === "mouse" && e.button !== 0) || e.target.closest(interactive)) return;
     dragging = true;
     moved = false;
     startX = e.clientX;
     startY = e.clientY;
     dx = 0;
+    track.classList.add("is-dragging");
   }, { passive: true });
 
   window.addEventListener("pointermove", (e) => {
     if (!dragging) return;
-    dx = e.clientX - startX;
-    const dy = e.clientY - startY;
-    if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) moved = true;
+    const moveX = e.clientX - startX;
+    const moveY = e.clientY - startY;
+    if (!moved && Math.abs(moveX) > 7 && Math.abs(moveX) > Math.abs(moveY)) moved = true;
+    if (!moved) return;
+    dx = moveX;
+    const resisted = Math.max(-110, Math.min(110, dx * 0.38));
+    allCards.forEach((card) => card.style.setProperty("--drag", resisted + "px"));
   }, { passive: true });
 
   function endDrag() {
     if (!dragging) return;
     dragging = false;
+    track.classList.remove("is-dragging");
+    allCards.forEach((card) => card.style.setProperty("--drag", "0px"));
     if (moved) {
-      if (dx < -45) next();
-      else if (dx > 45) prev();
-      // Keep the click guard briefly, so a swipe doesn't activate a card.
-      setTimeout(() => { moved = false; }, 80);
+      if (dx < -42) next();
+      else if (dx > 42) prev();
+      clearTimeout(clickGuardTimer);
+      clickGuardTimer = setTimeout(() => { moved = false; }, 120);
     }
   }
   window.addEventListener("pointerup", endDrag, { passive: true });
   window.addEventListener("pointercancel", endDrag, { passive: true });
+  window.addEventListener("blur", endDrag);
 
   chips.forEach((chip) => {
     chip.addEventListener("click", () => {
