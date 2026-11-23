@@ -11,11 +11,14 @@
   let startX = 0;
   let startY = 0;
   let dx = 0;
+  let pendingX = 0;
+  let pendingY = 0;
   let dragging = false;
   let moved = false;
+  let rafId = 0;
   let clickGuardTimer;
   const pad = (n) => String(n).padStart(2, "0");
-  const interactive = "button, input, select, textarea";
+  const interactive = "a, button, input, select, textarea";
 
   function render() {
     const n = cards.length;
@@ -44,11 +47,11 @@
   function buildDots() {
     dotsWrap.innerHTML = "";
     cards.forEach((_, i) => {
-      const b = document.createElement("button");
-      b.className = "dot";
-      b.setAttribute("aria-label", "Go to project " + (i + 1));
-      b.addEventListener("click", () => goTo(i));
-      dotsWrap.appendChild(b);
+      const button = document.createElement("button");
+      button.className = "dot";
+      button.setAttribute("aria-label", "Go to project " + (i + 1));
+      button.addEventListener("click", () => goTo(i));
+      dotsWrap.appendChild(button);
     });
   }
 
@@ -65,55 +68,77 @@
   nextBtn.addEventListener("click", next);
 
   allCards.forEach((card) => {
-    card.addEventListener("click", (e) => {
-      if (moved) { e.preventDefault(); e.stopPropagation(); return; }
+    card.addEventListener("click", (event) => {
+      if (moved) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
       if (!card.classList.contains("is-active")) {
-        e.preventDefault();
+        event.preventDefault();
         const index = cards.indexOf(card);
         if (index !== -1) goTo(index);
       }
     });
   });
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowRight") next();
-    if (e.key === "ArrowLeft") prev();
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowRight") next();
+    if (event.key === "ArrowLeft") prev();
   });
 
-  // Allow horizontal swipes anywhere on the page (including over the cards),
-  // and make the stack follow the pointer immediately instead of waiting for release.
-  document.addEventListener("pointerdown", (e) => {
-    if ((e.pointerType === "mouse" && e.button !== 0) || e.target.closest(interactive)) return;
+  // Coalesce pointer events to one visual update per frame for smoother mobile swipes.
+  document.addEventListener("pointerdown", (event) => {
+    if ((event.pointerType === "mouse" && event.button !== 0) || event.target.closest(interactive)) return;
     dragging = true;
     moved = false;
-    startX = e.clientX;
-    startY = e.clientY;
+    startX = event.clientX;
+    startY = event.clientY;
     dx = 0;
-    track.classList.add("is-dragging");
+    pendingX = event.clientX;
+    pendingY = event.clientY;
   }, { passive: true });
 
-  window.addEventListener("pointermove", (e) => {
+  window.addEventListener("pointermove", (event) => {
     if (!dragging) return;
-    const moveX = e.clientX - startX;
-    const moveY = e.clientY - startY;
-    if (!moved && Math.abs(moveX) > 7 && Math.abs(moveX) > Math.abs(moveY)) moved = true;
-    if (!moved) return;
-    dx = moveX;
-    const resisted = Math.max(-110, Math.min(110, dx * 0.38));
-    allCards.forEach((card) => card.style.setProperty("--drag", resisted + "px"));
+    pendingX = event.clientX;
+    pendingY = event.clientY;
+    if (!rafId) {
+      rafId = requestAnimationFrame(() => {
+        rafId = 0;
+        if (!dragging) return;
+        const moveX = pendingX - startX;
+        const moveY = pendingY - startY;
+        if (!moved && Math.abs(moveX) > 7 && Math.abs(moveX) > Math.abs(moveY)) {
+          moved = true;
+          track.classList.add("is-dragging");
+        }
+        if (!moved) return;
+        dx = moveX;
+        const resisted = Math.max(-90, Math.min(90, dx * 0.32));
+        allCards.forEach((card) => {
+          if (card.dataset.pos !== "off" && card.dataset.pos !== "hidden") {
+            card.style.setProperty("--drag", resisted + "px");
+          }
+        });
+      });
+    }
   }, { passive: true });
 
   function endDrag() {
     if (!dragging) return;
     dragging = false;
-    track.classList.remove("is-dragging");
-    allCards.forEach((card) => card.style.setProperty("--drag", "0px"));
-    if (moved) {
-      if (dx < -42) next();
-      else if (dx > 42) prev();
-      clearTimeout(clickGuardTimer);
-      clickGuardTimer = setTimeout(() => { moved = false; }, 120);
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = 0;
     }
+    track.classList.remove("is-dragging");
+    allCards.forEach((card) => card.style.removeProperty("--drag"));
+    if (!moved) return;
+    if (dx < -42) next();
+    else if (dx > 42) prev();
+    clearTimeout(clickGuardTimer);
+    clickGuardTimer = setTimeout(() => { moved = false; }, 180);
   }
   window.addEventListener("pointerup", endDrag, { passive: true });
   window.addEventListener("pointercancel", endDrag, { passive: true });
@@ -121,10 +146,10 @@
 
   chips.forEach((chip) => {
     chip.addEventListener("click", () => {
-      chips.forEach((c) => c.classList.remove("is-active"));
+      chips.forEach((item) => item.classList.remove("is-active"));
       chip.classList.add("is-active");
-      const f = chip.dataset.filter;
-      cards = allCards.filter((c) => f === "all" || c.dataset.category === f);
+      const filter = chip.dataset.filter;
+      cards = allCards.filter((card) => filter === "all" || card.dataset.category === filter);
       current = 0;
       buildDots();
       render();
