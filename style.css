@@ -207,7 +207,6 @@ body {
   gap: 8px;
   padding: 11px 18px;
   border-radius: 18px;
-  color: #1e293b;
   font-weight: 700;
   font-size: 0.88rem;
   letter-spacing: -0.01em;
@@ -242,26 +241,35 @@ body {
   50% { transform: rotate(calc(var(--rot) + 1.8deg)) translateY(3px); }
 }
 
+/* Cozy, individually colored role tags */
 .pill-uiux {
-  background: rgba(205, 244, 222, 0.76);
+  background: linear-gradient(135deg, #b8d7a6, #91bc85);
+  color: #31462c;
+  border-color: rgba(244, 248, 230, 0.95);
   top: 22px;
   left: 6%;
 }
 
 .pill-motion {
-  background: rgba(229, 218, 255, 0.76);
+  background: linear-gradient(135deg, #efb4a8, #d99087);
+  color: #63372f;
+  border-color: rgba(255, 240, 232, 0.95);
   top: 42px;
   right: 4%;
 }
 
 .pill-video {
-  background: rgba(205, 235, 255, 0.78);
+  background: linear-gradient(135deg, #a8cdd8, #79abb9);
+  color: #294e5a;
+  border-color: rgba(235, 248, 250, 0.95);
   top: 104px;
   left: 10%;
 }
 
 .pill-web {
-  background: rgba(255, 230, 202, 0.80);
+  background: linear-gradient(135deg, #efd0a1, #d8ad72);
+  color: #60482f;
+  border-color: rgba(255, 246, 225, 0.95);
   top: 122px;
   right: 6%;
 }
