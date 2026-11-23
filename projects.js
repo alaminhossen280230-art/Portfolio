@@ -72,42 +72,40 @@
     if (e.key === "ArrowLeft") prev();
   });
 
-  // Track horizontal swipes from anywhere on the page, not only over the cards.
+  // Track horizontal swipe intent page-wide, but avoid animating every card
+  // on every pointermove. Cards animate just once when the swipe ends.
   let startX = 0, startY = 0, dx = 0, dragging = false, moved = false;
+  const interactive = "a, button, input, select, textarea";
 
   document.addEventListener("pointerdown", (e) => {
     if (e.pointerType === "mouse" && e.button !== 0) return;
+    if (e.target.closest(interactive)) return;
     dragging = true;
     moved = false;
     startX = e.clientX;
     startY = e.clientY;
     dx = 0;
-  });
+  }, { passive: true });
 
   window.addEventListener("pointermove", (e) => {
     if (!dragging) return;
     dx = e.clientX - startX;
     const dy = e.clientY - startY;
-    if (!moved && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) {
-      moved = true;
-      track.classList.add("is-dragging");
-    }
-    if (moved) track.style.setProperty("--drag", dx * 0.6 + "px");
-  });
+    if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) moved = true;
+  }, { passive: true });
 
   function endDrag() {
     if (!dragging) return;
     dragging = false;
-    track.classList.remove("is-dragging");
-    track.style.setProperty("--drag", "0px");
     if (moved) {
-      if (dx < -50) next();
-      else if (dx > 50) prev();
-      setTimeout(() => { moved = false; }, 0);
+      if (dx < -45) next();
+      else if (dx > 45) prev();
+      // Keep the click guard briefly, so a swipe doesn't activate a card.
+      setTimeout(() => { moved = false; }, 80);
     }
   }
-  window.addEventListener("pointerup", endDrag);
-  window.addEventListener("pointercancel", endDrag);
+  window.addEventListener("pointerup", endDrag, { passive: true });
+  window.addEventListener("pointercancel", endDrag, { passive: true });
 
   chips.forEach((chip) => {
     chip.addEventListener("click", () => {
