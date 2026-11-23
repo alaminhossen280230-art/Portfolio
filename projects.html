@@ -1,445 +1,142 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  -webkit-tap-highlight-color: transparent;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — ALIF.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./projects.css" />
+  <script src="./projects.js" defer></script>
+</head>
+<body>
+  <main class="projects">
+    <header class="top">
+      <a class="back" href="./index.html" aria-label="Back to home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+      </a>
+      <h1 class="title">My Projects<span class="sparkle" aria-hidden="true">✦<small>✧</small></span></h1>
+    </header>
 
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: #0e1015;
-  display: flex;
-  justify-content: center;
-  min-height: 100vh;
-  min-height: 100dvh;
-}
+    <nav class="filters" aria-label="Filter projects">
+      <button class="chip chip--dark is-active" type="button" data-filter="all">All</button>
+      <button class="chip chip--mint" type="button" data-filter="uiux">UI/UX</button>
+      <button class="chip chip--lilac" type="button" data-filter="web">Web</button>
+      <button class="chip chip--peach" type="button" data-filter="video">Video</button>
+      <button class="chip chip--sky" type="button" data-filter="motion">Motion</button>
+    </nav>
 
-.viewport {
-  width: 100%;
-  max-width: 440px;
-  min-height: 100vh;
-  min-height: 100dvh;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
-}
+    <section class="stage" aria-label="Project carousel">
+      <button class="nav nav--prev" type="button" aria-label="Previous project">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+      </button>
+      <div class="track" id="track">
+        <article class="card" data-category="uiux">
+          <div class="sheet">
+            <div class="tape tape--lilac"></div>
+            <div class="thumb thumb--payflow">
+              <div class="thumb-heading">Payflow<br />made simple</div>
+              <div class="phone">
+                <div class="phone-screen">
+                  <div class="phone-balance">$2,480</div>
+                  <i></i><i></i><i></i>
+                </div>
+              </div>
+              <div class="stamp"><span>SMART<br />PAY</span></div>
+            </div>
+            <h2 class="card-title">Payflow App</h2>
+            <p class="card-desc">A friendly mobile banking experience designed to make everyday payments feel effortless.</p>
+            <div class="meta">
+              <span class="tag tag--lilac">UI/UX Design</span>
+              <span class="tools">Figma · Prototyping</span>
+            </div>
+            <div class="card-foot">
+              <span class="count"></span>
+              <a class="explore" href="#payflow">Explore <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+        </article>
 
-.canvas {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-  min-height: 100dvh;
-  background-image: url('./background.png');
-  background-size: cover;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: max(48px, 13vh) 18px max(24px, 3vh);
-}
+        <article class="card" data-category="web">
+          <div class="sheet">
+            <div class="tape tape--mint"></div>
+            <div class="thumb thumb--web">
+              <div class="browser">
+                <div class="browser-bar"><i></i><i></i><i></i></div>
+                <div class="browser-body">
+                  <div class="browser-text"><b></b><b></b><b class="short"></b></div>
+                  <div class="browser-pics"><span></span><span></span></div>
+                </div>
+              </div>
+            </div>
+            <h2 class="card-title">Studio Website</h2>
+            <p class="card-desc">A warm, responsive website concept for a creative studio, with a clear and playful visual identity.</p>
+            <div class="meta">
+              <span class="tag tag--mint">Web Design</span>
+              <span class="tools">HTML · CSS · JavaScript</span>
+            </div>
+            <div class="card-foot">
+              <span class="count"></span>
+              <a class="explore" href="#studio">Explore <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+        </article>
 
-.canvas::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.22) 0%,
-    rgba(255, 255, 255, 0.08) 42%,
-    rgba(0, 0, 0, 0.04) 80%,
-    rgba(0, 0, 0, 0.16) 100%
-  );
-  pointer-events: none;
-  z-index: 1;
-}
+        <article class="card" data-category="video">
+          <div class="sheet">
+            <div class="tape tape--peach"></div>
+            <div class="thumb thumb--video">
+              <div class="play-btn" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+              </div>
+              <div class="film"><span></span><span></span><span></span><span></span></div>
+            </div>
+            <h2 class="card-title">A Day in Motion</h2>
+            <p class="card-desc">A short-form video edit bringing a simple story to life with rhythm, color, and smooth transitions.</p>
+            <div class="meta">
+              <span class="tag tag--peach">Video Editing</span>
+              <span class="tools">Premiere Pro · After Effects</span>
+            </div>
+            <div class="card-foot">
+              <span class="count"></span>
+              <a class="explore" href="#video">Explore <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+        </article>
 
-.hero-cluster {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+        <article class="card" data-category="motion">
+          <div class="sheet">
+            <div class="tape tape--sky"></div>
+            <div class="thumb thumb--motion">
+              <div class="blob blob--1"></div>
+              <div class="blob blob--2"></div>
+              <div class="blob blob--3"></div>
+              <div class="player">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+                <div class="bar"><span></span></div>
+              </div>
+            </div>
+            <h2 class="card-title">Color in Motion</h2>
+            <p class="card-desc">A bright motion study exploring soft shapes, gradients, and fluid movement.</p>
+            <div class="meta">
+              <span class="tag tag--sky">Motion Design</span>
+              <span class="tools">After Effects · Animation</span>
+            </div>
+            <div class="card-foot">
+              <span class="count"></span>
+              <a class="explore" href="#motion">Explore <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+        </article>
+      </div>
+      <button class="nav nav--next" type="button" aria-label="Next project">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+      </button>
+    </section>
 
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(242, 245, 249, 0.84);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  padding: 6px 18px 6px 7px;
-  border-radius: 999px;
-  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.08);
-  margin-bottom: 22px;
-}
-
-.avatar-ring {
-  position: relative;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #e4a668;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.avatar-img {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 32%;
-  transform: scale(1.7);
-  transform-origin: 50% 32%;
-}
-
-.avatar-fallback {
-  position: absolute;
-  z-index: 1;
-  font-weight: 800;
-  font-size: 0.88rem;
-  color: #1f1914;
-}
-
-.brand-name {
-  font-weight: 800;
-  font-size: 0.92rem;
-  color: #181a1f;
-  letter-spacing: 0.01em;
-}
-
-.status-indicator {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  margin-left: 2px;
-}
-
-.pulse-dot {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background-color: #34c77b;
-  border: 2.5px solid #b5ecd0;
-  box-shadow: 0 0 8px rgba(52, 199, 123, 0.5);
-}
-
-.status-text {
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: #2b303a;
-}
-
-.headline-stage {
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.hero-title {
-  position: relative;
-  z-index: 3;
-  font-size: clamp(2.15rem, 8.6vw, 2.75rem);
-  font-weight: 900;
-  line-height: 1.03;
-  text-align: center;
-  color: #191b20;
-  letter-spacing: -0.035em;
-  text-transform: uppercase;
-  margin-bottom: 22px;
-  text-shadow: 0 2px 14px rgba(255, 255, 255, 0.35);
-}
-
-.web-underlay,
-.web-overlay {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.web-underlay { z-index: 2; }
-.web-overlay { z-index: 4; }
-
-.resume-btn {
-  position: relative;
-  z-index: 5;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.96);
-  color: #191b20;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 1.05rem;
-  padding: 15px 30px;
-  border-radius: 999px;
-  box-shadow: 0 12px 28px rgba(16, 24, 40, 0.14);
-  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease;
-}
-
-.resume-btn:active { transform: scale(0.96); }
-
-.roles-field {
-  position: relative;
-  z-index: 6;
-  width: 100%;
-  height: 195px;
-  margin-top: 8px;
-}
-
-.role-pill {
-  position: absolute;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 11px 18px;
-  border-radius: 18px;
-  font-weight: 700;
-  font-size: 0.88rem;
-  letter-spacing: -0.01em;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
-  white-space: nowrap;
-  user-select: none;
-  transform-origin: top center;
-  animation: gentleSway 4.8s ease-in-out infinite;
-  animation-delay: var(--delay);
-  transition:
-    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.25s ease;
-}
-
-.role-pill svg {
-  flex: 0 0 auto;
-}
-
-.role-pill:hover {
-  box-shadow: 0 9px 20px rgba(15, 23, 42, 0.10);
-}
-
-.role-pill:active {
-  transform: scale(0.96) rotate(var(--rot));
-}
-
-@keyframes gentleSway {
-  0%, 100% { transform: rotate(var(--rot)) translateY(0px); }
-  50% { transform: rotate(calc(var(--rot) + 1.8deg)) translateY(3px); }
-}
-
-/* Cozy, individually colored role tags */
-.pill-uiux {
-  background: linear-gradient(135deg, #b8d7a6, #91bc85);
-  color: #31462c;
-  border-color: rgba(244, 248, 230, 0.95);
-  top: 22px;
-  left: 6%;
-}
-
-.pill-motion {
-  background: linear-gradient(135deg, #efb4a8, #d99087);
-  color: #63372f;
-  border-color: rgba(255, 240, 232, 0.95);
-  top: 42px;
-  right: 4%;
-}
-
-.pill-video {
-  background: linear-gradient(135deg, #a8cdd8, #79abb9);
-  color: #294e5a;
-  border-color: rgba(235, 248, 250, 0.95);
-  top: 104px;
-  left: 10%;
-}
-
-.pill-web {
-  background: linear-gradient(135deg, #efd0a1, #d8ad72);
-  color: #60482f;
-  border-color: rgba(255, 246, 225, 0.95);
-  top: 122px;
-  right: 6%;
-}
-
-.glass-dock {
-  position: relative;
-  z-index: 5;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  width: 100%;
-  max-width: 365px;
-  background: rgba(255, 251, 242, 0.72);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.78);
-  padding: 13px 16px 11px;
-  border-radius: 28px;
-  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.22);
-}
-
-.dock-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  text-decoration: none;
-  color: #191b20;
-  font-size: 0.78rem;
-  font-weight: 600;
-  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.dock-item:active { transform: scale(0.92); }
-
-.dock-tile {
-  width: 50px;
-  height: 50px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  box-shadow:
-    inset 0 2px 4px rgba(255, 255, 255, 0.6),
-    inset 0 -3px 6px rgba(0, 0, 0, 0.15),
-    0 5px 10px rgba(30, 41, 59, 0.16);
-}
-
-.dock-tile svg {
-  filter: drop-shadow(0 1px 1px rgba(43, 36, 68, 0.18));
-}
-
-.tile-projects { background: linear-gradient(145deg, #aa9bff, #8068ed); }
-.tile-contact  { background: linear-gradient(145deg, #8bd1ff, #549bed); }
-.tile-about    { background: linear-gradient(145deg, #ffa8c7, #e978a5); }
-.tile-social   { background: linear-gradient(145deg, #91e8c9, #4fbea0); }
-
-/* Give the desktop composition more visual scale while leaving mobile unchanged. */
-@media (min-width: 768px) {
-  .viewport {
-    max-width: none;
-    width: 100%;
-    box-shadow: none;
-  }
-
-  .canvas {
-    padding: clamp(48px, 8vh, 100px) clamp(36px, 8vw, 144px) clamp(36px, 6vh, 72px);
-    background-position: center center;
-  }
-
-  .hero-cluster {
-    max-width: 1320px;
-  }
-
-  .status-pill {
-    gap: 14px;
-    padding: 9px 26px 9px 10px;
-    margin-bottom: clamp(34px, 6vh, 64px);
-  }
-
-  .avatar-ring {
-    width: 42px;
-    height: 42px;
-  }
-
-  .brand-name { font-size: 1.15rem; }
-  .status-text { font-size: 1.05rem; }
-  .pulse-dot { width: 13px; height: 13px; }
-
-  .headline-stage {
-    max-width: 1200px;
-  }
-
-  .hero-title {
-    font-size: clamp(4.5rem, 7.5vw, 8rem);
-    line-height: 0.98;
-    margin-bottom: clamp(32px, 5vh, 56px);
-  }
-
-  .resume-btn {
-    gap: 14px;
-    font-size: 1.35rem;
-    padding: 19px 42px;
-  }
-
-  .resume-btn svg {
-    width: 22px;
-    height: 22px;
-  }
-
-  .roles-field {
-    max-width: 1120px;
-    height: clamp(240px, 30vh, 340px);
-    margin-top: clamp(24px, 4vh, 42px);
-  }
-
-  .role-pill {
-    gap: 10px;
-    font-size: clamp(1.05rem, 1.3vw, 1.35rem);
-    padding: 16px 25px;
-    border-radius: 22px;
-  }
-
-  .role-pill svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .glass-dock {
-    max-width: 500px;
-    gap: 22px;
-    padding: 20px 26px 18px;
-    border-radius: 32px;
-  }
-
-  .dock-item {
-    gap: 9px;
-    font-size: 0.95rem;
-  }
-
-  .dock-tile {
-    width: 68px;
-    height: 68px;
-    border-radius: 19px;
-  }
-
-  .dock-tile svg {
-    width: 29px;
-    height: 29px;
-  }
-}
-
-@media (min-width: 1440px) {
-  .hero-title {
-    font-size: clamp(7rem, 7.8vw, 9.5rem);
-  }
-
-  .roles-field {
-    max-width: 1280px;
-    height: clamp(290px, 32vh, 390px);
-  }
-
-  .glass-dock {
-    max-width: 550px;
-  }
-
-  .dock-tile {
-    width: 76px;
-    height: 76px;
-    border-radius: 21px;
-  }
-}
+    <div class="dots" id="dots" aria-label="Choose a project"></div>
+    <p class="hint">Swipe to explore <span aria-hidden="true">← →</span></p>
+  </main>
+</body>
+</html>
