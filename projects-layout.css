@@ -1,0 +1,39 @@
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  overscroll-behavior-x: none;
+}
+
+.projects {
+  width: 100%;
+  max-width: 900px;
+  overflow-x: clip;
+}
+
+.stage,
+.track {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+@media (max-width: 420px) {
+  .projects {
+    min-height: 100svh;
+    padding-bottom: 24px;
+  }
+
+  .stage {
+    margin-top: 42px;
+  }
+
+  .dots {
+    margin-top: 26px;
+  }
+}
