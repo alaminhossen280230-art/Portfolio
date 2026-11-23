@@ -1,0 +1,6 @@
+/* Keep carousel swaps responsive on mobile by avoiding unnecessary layer promotion
+   and removing the unused filter transition. */
+.card {
+  transition: transform 0.32s cubic-bezier(.22, .8, .26, 1), opacity 0.25s;
+  will-change: auto;
+}
