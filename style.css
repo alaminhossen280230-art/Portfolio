@@ -328,6 +328,39 @@ body {
 .tile-about    { background: linear-gradient(145deg, #ffa8c7, #e978a5); }
 .tile-social   { background: linear-gradient(145deg, #91e8c9, #4fbea0); }
 
+/* Projects icon press animation */
+.dock-item[href="./projects.html"] .dock-tile {
+  transition: box-shadow 0.25s ease;
+}
+
+.dock-item[href="./projects.html"]:active .dock-tile {
+  animation: projectsLaunch 0.42s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.dock-item[href="./projects.html"]:active .dock-tile svg {
+  animation: projectsIconSpin 0.42s ease-out;
+}
+
+@keyframes projectsLaunch {
+  0% { transform: scale(1) rotate(0); box-shadow: 0 5px 10px rgba(30, 41, 59, 0.16); }
+  45% { transform: scale(1.2) rotate(-8deg); box-shadow: 0 0 24px rgba(128, 104, 237, 0.75); }
+  75% { transform: scale(0.94) rotate(4deg); }
+  100% { transform: scale(1) rotate(0); box-shadow: 0 5px 10px rgba(30, 41, 59, 0.16); }
+}
+
+@keyframes projectsIconSpin {
+  0% { transform: rotate(0) scale(1); }
+  55% { transform: rotate(18deg) scale(1.12); }
+  100% { transform: rotate(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dock-item[href="./projects.html"]:active .dock-tile,
+  .dock-item[href="./projects.html"]:active .dock-tile svg {
+    animation: none;
+  }
+}
+
 /* Give the desktop composition more visual scale while leaving mobile unchanged. */
 @media (min-width: 768px) {
   .viewport {
