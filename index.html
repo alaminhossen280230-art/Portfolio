@@ -8,11 +8,369 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css?v=7" />
-  <style>
-    .avatar-img {
-      transform: scale(1.42);
-      transform-origin: 50% 32%;
-    }
-  </style>
 </head>
 <body>
+  <main class="viewport">
+    <div class="canvas">
+      <section class="hero-cluster">
+        <div class="status-pill">
+          <div class="avatar-ring">
+            <img src="./avatar.jpg" alt="Alif" class="avatar-img" onerror="this.style.display='none'" />
+            <span class="avatar-fallback">A</span>
+          </div>
+          <span class="brand-name">ALIF.</span>
+          <div class="status-indicator">
+            <span class="pulse-dot"></span>
+            <span class="status-text">Available for work</span>
+          </div>
+        </div>
+
+        <div class="headline-stage" id="headlineStage">
+          <svg class="web-underlay" id="webUnderlay" aria-hidden="true"></svg>
+          <h1 class="hero-title" id="heroTitle">
+            DESIGN THAT<br>
+            MAKES PEOPLE<br>
+            LOOK TWICE
+          </h1>
+          <svg class="web-overlay" id="webOverlay" aria-hidden="true"></svg>
+
+          <a href="#resume" class="resume-btn">
+            <span>Resume</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </a>
+
+          <div class="roles-field">
+            <div class="role-pill pill-uiux" data-anchor-x="0.28" data-anchor-y="0.58" style="--rot: -7.5deg; --delay: 0s;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="6 4 20 12 6 20 6 4"></polygon>
+              </svg>
+              <span>UI/UX Designer</span>
+            </div>
+            <div class="role-pill pill-motion" data-anchor-x="0.72" data-anchor-y="0.58" style="--rot: 5.5deg; --delay: -1.4s;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2.5"></rect>
+                <path d="M2 9h20"></path>
+                <path d="m7 4 3 5"></path>
+                <path d="m14 4 3 5"></path>
+              </svg>
+              <span>Motion Designer</span>
+            </div>
+            <div class="role-pill pill-video" data-anchor-x="0.38" data-anchor-y="0.58" style="--rot: 4.5deg; --delay: -2.2s;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 21 12 15 6"></polyline>
+                <polyline points="9 6 3 12 9 18"></polyline>
+              </svg>
+              <span>Video Editor</span>
+            </div>
+            <div class="role-pill pill-web" data-anchor-x="0.64" data-anchor-y="0.58" style="--rot: -5.5deg; --delay: -0.8s;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="16" rx="2.5"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+              </svg>
+              <span>Web Developer</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <nav class="glass-dock" aria-label="Primary Navigation">
+        <a href="#projects" class="dock-item">
+          <div class="dock-tile tile-projects">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+          </div>
+          <span>Projects</span>
+        </a>
+        <a href="#contact" class="dock-item">
+          <div class="dock-tile tile-contact">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </svg>
+          </div>
+          <span>Contact</span>
+        </a>
+        <a href="#about" class="dock-item">
+          <div class="dock-tile tile-about">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <span>About</span>
+        </a>
+        <a href="#social" class="dock-item">
+          <div class="dock-tile tile-social">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+          </div>
+          <span>Social</span>
+        </a>
+      </nav>
+    </div>
+  </main>
+
+  <script>
+    let spiderSegments = [];
+    let spiderSegmentIndex = 0;
+    let spiderSegmentStarted = 0;
+    let spiderLastTime = 0;
+
+    function renderGossamerWebs() {
+      const stage = document.getElementById('headlineStage');
+      const title = document.getElementById('heroTitle');
+      const underSvg = document.getElementById('webUnderlay');
+      const overSvg = document.getElementById('webOverlay');
+      const pills = document.querySelectorAll('.role-pill');
+
+      if (!stage || !title || !underSvg || !overSvg) return;
+
+      const stageRect = stage.getBoundingClientRect();
+      const titleRect = title.getBoundingClientRect();
+      const vb = `0 0 ${stageRect.width} ${stageRect.height}`;
+
+      underSvg.setAttribute('viewBox', vb);
+      overSvg.setAttribute('viewBox', vb);
+
+      const filterDef = `
+        <defs>
+          <filter id="gossamerContrast" x="-15%" y="-15%" width="130%" height="130%">
+            <feDropShadow dx="0" dy="0.8" stdDeviation="0.9" flood-color="#1c2a44" flood-opacity="0.28" />
+          </filter>
+          <filter id="doodleLine" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="8" result="texture" />
+            <feDisplacementMap in="SourceGraphic" in2="texture" scale="1.15" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+        </defs>
+      `;
+
+      let underHtml = `${filterDef}<g filter="url(#gossamerContrast)">`;
+      let overHtml = `${filterDef}<g filter="url(#gossamerContrast)">`;
+
+      const tLeft = titleRect.left - stageRect.left;
+      const tTop = titleRect.top - stageRect.top;
+      const tW = titleRect.width;
+      const tH = titleRect.height;
+      const rowTop = tTop + tH * 0.67;
+      const rowMid = tTop + tH * 0.79;
+      const rowBot = tTop + tH * 0.92;
+
+      const letterStrands = [
+        { x1: 0.08, y1: rowTop, x2: 0.25, y2: rowBot, cx: 0.16, cy: rowMid + 5, op: 0.78 },
+        { x1: 0.11, y1: rowBot, x2: 0.32, y2: rowTop + 2, cx: 0.21, cy: rowMid, op: 0.72 },
+        { x1: 0.19, y1: rowTop + 3, x2: 0.43, y2: rowBot - 1, cx: 0.31, cy: rowMid + 6, op: 0.75 },
+        { x1: 0.27, y1: rowBot, x2: 0.46, y2: rowTop + 1, cx: 0.36, cy: rowMid - 2, op: 0.68 },
+        { x1: 0.09, y1: rowMid + 2, x2: 0.45, y2: rowMid - 1, cx: 0.27, cy: rowMid + 7, op: 0.62 },
+        { x1: 0.52, y1: rowTop + 1, x2: 0.72, y2: rowBot, cx: 0.62, cy: rowMid + 5, op: 0.76 },
+        { x1: 0.56, y1: rowBot - 1, x2: 0.78, y2: rowTop, cx: 0.67, cy: rowMid - 1, op: 0.72 },
+        { x1: 0.66, y1: rowTop + 2, x2: 0.90, y2: rowBot, cx: 0.78, cy: rowMid + 6, op: 0.78 },
+        { x1: 0.72, y1: rowBot, x2: 0.92, y2: rowTop + 3, cx: 0.82, cy: rowMid, op: 0.70 },
+        { x1: 0.54, y1: rowMid, x2: 0.91, y2: rowMid + 2, cx: 0.73, cy: rowMid + 7, op: 0.62 }
+      ];
+
+      const qPt = (p0, p1, p2, t) => {
+        const u = 1 - t;
+        return {
+          x: u * u * p0.x + 2 * u * t * p1.x + t * t * p2.x,
+          y: u * u * p0.y + 2 * u * t * p1.y + t * t * p2.y
+        };
+      };
+      const toStageX = (ratio) => tLeft + tW * ratio;
+
+      letterStrands.forEach((s) => {
+        const x1 = toStageX(s.x1);
+        const x2 = toStageX(s.x2);
+        const cx = toStageX(s.cx);
+        overHtml += `<path d="M ${x1} ${s.y1} Q ${cx} ${s.cy} ${x2} ${s.y2}" stroke="rgba(112,117,123,${s.op})" stroke-width="1.05" stroke-linecap="round" fill="none" filter="url(#doodleLine)" />`;
+      });
+
+      const anchors = [
+        { leftX: 0.21, rightX: 0.34, badgeHookRatio: 0.48, curve: -9 },
+        { leftX: 0.67, rightX: 0.80, badgeHookRatio: 0.52, curve: 9 },
+        { leftX: 0.34, rightX: 0.45, badgeHookRatio: 0.46, curve: -7 },
+        { leftX: 0.57, rightX: 0.69, badgeHookRatio: 0.50, curve: 7 }
+      ];
+      const spiderThreads = [];
+
+      pills.forEach((pill, idx) => {
+        const cfg = anchors[idx] || { leftX: 0.45, rightX: 0.55, badgeHookRatio: 0.5, curve: 0 };
+        const pillRect = pill.getBoundingClientRect();
+        const topY = tTop + tH * 0.90;
+        const topLeft = { x: toStageX(cfg.leftX), y: topY };
+        const topRight = { x: toStageX(cfg.rightX), y: topY };
+        const topMid = { x: (topLeft.x + topRight.x) / 2, y: topY - 2 };
+
+        const rotDeg = parseFloat(getComputedStyle(pill).getPropertyValue('--rot')) || 0;
+        const rotRad = (rotDeg * Math.PI) / 180;
+        const centerX = pillRect.left - stageRect.left + pillRect.width * cfg.badgeHookRatio;
+        const centerY = pillRect.top - stageRect.top + pillRect.height / 2;
+        const halfH = pill.offsetHeight / 2;
+        const hook = {
+          x: centerX + Math.sin(rotRad) * (halfH - 6),
+          y: centerY - Math.cos(rotRad) * (halfH - 6)
+        };
+
+        const ctrlLeft = { x: (topLeft.x + hook.x) / 2 + cfg.curve, y: (topLeft.y + hook.y) / 2 };
+        const ctrlRight = { x: (topRight.x + hook.x) / 2 + cfg.curve * 0.6, y: (topRight.y + hook.y) / 2 };
+        const ctrlMid = { x: (topMid.x + hook.x) / 2 + cfg.curve * 0.8, y: (topMid.y + hook.y) / 2 };
+        spiderThreads.push({ top: topMid, control: ctrlMid, hook });
+
+        underHtml += `<path d="M ${topLeft.x} ${topLeft.y} Q ${ctrlLeft.x} ${ctrlLeft.y} ${hook.x} ${hook.y} Q ${ctrlRight.x} ${ctrlRight.y} ${topRight.x} ${topRight.y} Z" fill="rgba(255,255,255,0.12)" stroke="none" />`;
+        underHtml += `<path d="M ${topLeft.x} ${topLeft.y} Q ${ctrlLeft.x} ${ctrlLeft.y} ${hook.x} ${hook.y}" stroke="rgba(112,117,123,0.82)" stroke-width="1.3" stroke-linecap="round" fill="none" filter="url(#doodleLine)" />`;
+        underHtml += `<path d="M ${topRight.x} ${topRight.y} Q ${ctrlRight.x} ${ctrlRight.y} ${hook.x} ${hook.y}" stroke="rgba(112,117,123,0.78)" stroke-width="1.25" stroke-linecap="round" fill="none" filter="url(#doodleLine)" />`;
+        underHtml += `<path d="M ${topMid.x} ${topMid.y} Q ${ctrlMid.x} ${ctrlMid.y} ${hook.x} ${hook.y}" stroke="rgba(112,117,123,0.60)" stroke-width="0.95" stroke-linecap="round" fill="none" filter="url(#doodleLine)" />`;
+
+        [0.10, 0.20, 0.32, 0.45, 0.60, 0.76].forEach((t, rIdx) => {
+          const pL = qPt(topLeft, ctrlLeft, hook, t);
+          const pR = qPt(topRight, ctrlRight, hook, t);
+          const mx = (pL.x + pR.x) / 2;
+          const my = (pL.y + pR.y) / 2 + (rIdx % 2 === 0 ? 3.5 : 2);
+          const op = Math.max(0.45, 0.78 - rIdx * 0.05);
+          underHtml += `<path d="M ${pL.x} ${pL.y} Q ${mx} ${my} ${pR.x} ${pR.y}" stroke="rgba(112,117,123,${op})" stroke-width="0.95" stroke-linecap="round" fill="none" filter="url(#doodleLine)" />`;
+        });
+      });
+
+      // Rebuild a gentle route from each hanging thread through existing letter strands.
+      const addCurve = (p0, p1, p2, kind = 'crawl') => spiderSegments.push({ p0, p1, p2, kind });
+      spiderSegments = [];
+      if (spiderThreads.length) {
+        spiderThreads.forEach((thread, index) => {
+          const nextThread = spiderThreads[(index + 1) % spiderThreads.length];
+          addCurve(thread.top, thread.control, thread.hook, 'drop');
+          spiderSegments.push({ kind: 'pause', duration: 1100 });
+          addCurve(thread.hook, thread.control, thread.top, 'crawl');
+
+          const strand = letterStrands[index % letterStrands.length];
+          const strandStart = { x: toStageX(strand.x1), y: strand.y1 };
+          const strandEnd = { x: toStageX(strand.x2), y: strand.y2 };
+          const strandControl = { x: toStageX(strand.cx), y: strand.cy };
+          const reverse = Math.hypot(thread.top.x - strandEnd.x, thread.top.y - strandEnd.y) < Math.hypot(thread.top.x - strandStart.x, thread.top.y - strandStart.y);
+          const from = reverse ? strandEnd : strandStart;
+          const to = reverse ? strandStart : strandEnd;
+          const curveBetween = (a, b, bendY) => ({ x: (a.x + b.x) / 2, y: bendY });
+          addCurve(thread.top, curveBetween(thread.top, from, rowMid), from, 'crawl');
+          addCurve(from, strandControl, to, 'web');
+          addCurve(to, curveBetween(to, nextThread.top, rowMid), nextThread.top, 'crawl');
+        });
+      }
+
+      const bezierPoint = (segment, t) => qPt(segment.p0, segment.p1, segment.p2, t);
+      spiderSegments.forEach((segment) => {
+        if (segment.kind === 'pause') return;
+        let length = 0;
+        let previous = segment.p0;
+        const samples = [];
+        for (let i = 1; i <= 32; i++) {
+          const point = bezierPoint(segment, i / 32);
+          length += Math.hypot(point.x - previous.x, point.y - previous.y);
+          samples.push({ t: i / 32, distance: length });
+          previous = point;
+        }
+        segment.length = length;
+        segment.samples = samples;
+        segment.duration = Math.max(500, length / 42 * 1000);
+      });
+
+      underHtml += `</g>`;
+      overHtml += `</g>
+        <g id="spiderSilk" pointer-events="none" fill="none" stroke="rgba(25,27,32,0.19)" stroke-width="0.65" stroke-linecap="round"></g>
+        <g id="webSpider" pointer-events="none" style="pointer-events:none">
+          <g id="spiderLegsBack" fill="none" stroke="#191b20" stroke-width="1.05" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 10 Q7.2 7.4 4.1 8.2 L2.1 6.7"/><path d="M10 12 Q6.8 11 3.7 12 L1.7 11.2"/>
+            <path d="M10 14 Q7 15.4 4.2 16.3 L2.2 18"/><path d="M11 15 Q8.7 18 6.2 19.2 L5 21"/>
+            <path d="M14 10 Q16.8 7.4 19.9 8.2 L21.9 6.7"/><path d="M14 12 Q17.2 11 20.3 12 L22.3 11.2"/>
+            <path d="M14 14 Q17 15.4 19.8 16.3 L21.8 18"/><path d="M13 15 Q15.3 18 17.8 19.2 L19 21"/>
+          </g>
+          <ellipse cx="12" cy="13.3" rx="3.8" ry="4.3" fill="#191b20"/>
+          <circle cx="12" cy="8.1" r="2.55" fill="#191b20"/>
+          <circle cx="11.15" cy="7.75" r="0.55" fill="#fff"/><circle cx="12.85" cy="7.75" r="0.55" fill="#fff"/>
+        </g>`;
+      underSvg.innerHTML = underHtml;
+      overSvg.innerHTML = overHtml;
+    }
+
+    function spiderFrame(now) {
+      requestAnimationFrame(spiderFrame);
+      if (!spiderSegments.length) return;
+      if (!spiderSegmentStarted) spiderSegmentStarted = now;
+
+      let segment = spiderSegments[spiderSegmentIndex];
+      while (segment && now - spiderSegmentStarted >= segment.duration) {
+        spiderSegmentStarted += segment.duration;
+        spiderSegmentIndex = (spiderSegmentIndex + 1) % spiderSegments.length;
+        segment = spiderSegments[spiderSegmentIndex];
+      }
+      if (!segment) return;
+
+      const spider = document.getElementById('webSpider');
+      const silk = document.getElementById('spiderSilk');
+      if (!spider || !silk) return;
+
+      const elapsed = now - spiderSegmentStarted;
+      let point;
+      let angle = -Math.PI / 2;
+      if (segment.kind === 'pause') {
+        point = spiderSegments[(spiderSegmentIndex + spiderSegments.length - 1) % spiderSegments.length];
+        if (point.kind === 'pause') return;
+        point = point.p2;
+        silk.innerHTML = '';
+      } else {
+        const distance = Math.min(1, elapsed / segment.duration) * segment.length;
+        let sampleIndex = segment.samples.findIndex((sample) => sample.distance >= distance);
+        if (sampleIndex < 0) sampleIndex = segment.samples.length - 1;
+        const lower = segment.samples[Math.max(0, sampleIndex - 1)];
+        const upper = segment.samples[sampleIndex];
+        const fraction = upper.distance === lower.distance ? 0 : (distance - lower.distance) / (upper.distance - lower.distance);
+        const t = lower.t + (upper.t - lower.t) * fraction;
+        point = {
+          x: (1 - t) * (1 - t) * segment.p0.x + 2 * (1 - t) * t * segment.p1.x + t * t * segment.p2.x,
+          y: (1 - t) * (1 - t) * segment.p0.y + 2 * (1 - t) * t * segment.p1.y + t * t * segment.p2.y
+        };
+        const dx = 2 * (1 - t) * (segment.p1.x - segment.p0.x) + 2 * t * (segment.p2.x - segment.p1.x);
+        const dy = 2 * (1 - t) * (segment.p1.y - segment.p0.y) + 2 * t * (segment.p2.y - segment.p1.y);
+        angle = Math.atan2(dy, dx);
+
+        if (segment.kind === 'drop') {
+          const trail = [];
+          for (let i = 0; i <= 14; i++) {
+            const trailPoint = bezierPointForSpider(segment, t * i / 14);
+            trail.push(`${i ? 'L' : 'M'} ${trailPoint.x} ${trailPoint.y}`);
+          }
+          silk.innerHTML = `<path d="${trail.join(' ')}"/>`;
+        } else {
+          silk.innerHTML = '';
+        }
+      }
+
+      const legWiggle = Math.sin(now / 70) * 5;
+      spider.setAttribute('transform', `translate(${point.x - 12} ${point.y - 12}) rotate(${angle * 180 / Math.PI + 90} 12 12)`);
+      const legs = spider.querySelector('#spiderLegsBack');
+      if (legs) legs.setAttribute('transform', `rotate(${legWiggle} 12 12)`);
+      spiderLastTime = now;
+    }
+
+    function bezierPointForSpider(segment, t) {
+      const u = 1 - t;
+      return {
+        x: u * u * segment.p0.x + 2 * u * t * segment.p1.x + t * t * segment.p2.x,
+        y: u * u * segment.p0.y + 2 * u * t * segment.p1.y + t * t * segment.p2.y
+      };
+    }
+
+    window.addEventListener('load', renderGossamerWebs);
+    window.addEventListener('resize', renderGossamerWebs);
+    setInterval(renderGossamerWebs, 45);
+    requestAnimationFrame(spiderFrame);
+  </script>
+</body>
+</html>
