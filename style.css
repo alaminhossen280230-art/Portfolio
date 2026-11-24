@@ -39,10 +39,15 @@ body {
 .canvas {
   width: 100%;
   max-width: 640px;
-  padding: clamp(48px, 24vh, 260px) 14px 130px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  /* everything sits together as one group (headline, tags, then the icon bar right under them),
+     centred on the screen like the reference */
+  padding: max(28px, env(safe-area-inset-top)) 14px max(24px, env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .hero-cluster {
@@ -393,10 +398,9 @@ body {
 
 /* ---------- Dock ---------- */
 .glass-dock {
-  position: fixed;
-  left: 50%;
-  bottom: max(14px, env(safe-area-inset-bottom));
-  translate: -50% 0;
+  /* sits right under the tags instead of being pinned to the bottom of the screen */
+  position: relative;
+  margin-top: clamp(18px, 4vh, 40px);
   z-index: 20;
   display: flex;
   align-items: center;
@@ -516,4 +520,4 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .pulse-dot::after { animation: none; }
   .headline-stage::before, .headline-stage::after { animation: none; }
-                 }
+        }
