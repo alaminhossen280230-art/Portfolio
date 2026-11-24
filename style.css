@@ -16,6 +16,8 @@ html, body { min-height: 100%; }
 body {
   font-family: var(--font);
   color: var(--ink);
+  /* BACKGROUND: put your picture next to this file and name it bg.jpg
+     (or change the name here). The sky gradient only shows if it's missing. */
   background:
     url("./bg.jpg") center top / cover no-repeat,
     linear-gradient(180deg, #7fb0e4 0%, #b8d4ef 38%, #e8dcc8 66%, #d6b597 100%);
@@ -185,12 +187,13 @@ body {
 
 .roles { position: absolute; inset: 0; }
 
-/* ---------- Spider-web silk ---------- */
+/* ---------- Spider-web silk (drawn by script.js) ---------- */
 .web,
 .thread {
   position: absolute;
   overflow: visible;
   pointer-events: none;
+  /* a faint dark edge so the white silk reads on bright sky */
   filter: drop-shadow(0 0 0.5px rgba(40, 60, 90, 0.6));
 }
 .silk { fill: none; stroke: var(--silk); stroke-linecap: round; stroke-linejoin: round; }
@@ -200,7 +203,7 @@ body {
 .silk--loose { stroke-width: 0.55; opacity: 0.6; }
 .dew { fill: #fff; }
 
-/* web spun around the headline */
+/* web spun around the headline: front silk over the letters, back silk behind them */
 .title-web {
   position: absolute;
   left: 0;
@@ -213,8 +216,9 @@ body {
 .title-web .silk--spoke { stroke-width: calc(0.55px * var(--s, 1)); }
 .title-web .silk--ring  { stroke-width: calc(0.42px * var(--s, 1)); }
 .title-web .silk--main  { stroke-width: calc(0.6px * var(--s, 1)); }
-.tw-silk { filter: drop-shadow(0 0 0.4px rgba(40, 60, 90, 0.55)); }
-.tw-shadow { transform: translate(0.8px, 1.6px); filter: blur(0.7px); opacity: 0.5; }
+/* soft shadow under every strand so the silk floats off the letters
+   (no blur filters here: this silk is redrawn every frame, and filters made dragging lag on phones) */
+.tw-shadow { transform: translate(0.7px, 1.3px); opacity: 0.35; }
 .tw-shadow .silk { stroke: rgba(20, 32, 55, 0.7); }
 .tw-shadow .dew  { fill: rgba(20, 32, 55, 0.6); }
 
@@ -281,6 +285,7 @@ body {
 .role-pill svg { width: 15px; height: 15px; flex: none; }
 .role-pill.is-grabbing { cursor: grabbing; }
 
+/* a different cozy colour for each tag */
 .pill-uiux   { --c1: #74d096; --c2: #3e9f63; --glow: rgba(62, 159, 99, 0.5); }
 .pill-motion { --c1: #c49bf0; --c2: #9466db; --glow: rgba(148, 102, 219, 0.5); }
 .pill-video  { --c1: #75aaf2; --c2: #3f73d8; --glow: rgba(63, 115, 216, 0.5); }
@@ -364,23 +369,4 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .pulse-dot::after { animation: none; }
-}
-
-/* ---------- Animation performance ---------- */
-/* SVG filters force expensive off-screen rasterization while the webs move. */
-.web,
-.thread,
-.tw-silk {
-  filter: none;
-}
-
-/* Keep the subtle dark offset, but avoid re-blurring the whole SVG every frame. */
-.tw-shadow {
-  filter: none;
-  opacity: 0.28;
-}
-
-/* Shadows are costly to repaint during a drag; restore them when released. */
-.role-pill.is-grabbing {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-}
+   }
