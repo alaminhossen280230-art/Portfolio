@@ -8,9 +8,17 @@
 
   /* ---------------- Hanging tags (pendulum physics) ---------------- */
   const field = document.getElementById('rolesField');
-  const GRAVITY = 1500;
-  const DAMPING = 1.1;
-  const MAX_ANGLE = 1.25;
+  // A tag swinging past the right edge used to make the whole page wider for a moment
+  // (things sticking out on the left never do that). The phone then re-laid out the page
+  // every frame, so the swing stuttered on the right side only. Clip the sides instead.
+  const pageBox = document.querySelector('.viewport');
+  if (pageBox) pageBox.style.overflowX = 'clip';
+  if (window.CSS && CSS.supports && !CSS.supports('overflow-x', 'clip')) {
+    if (pageBox) pageBox.style.overflowX = 'hidden'; // older browsers
+  }
+  const GRAVITY = 1500;    // pulls tags back to hanging straight
+  const DAMPING = 1.1;     // lower = swings for longer
+  const MAX_ANGLE = 1.25;  // about 70°
 
   const tags = field ? [...field.querySelectorAll('.hanger')].map((hanger, i) => {
     const css = getComputedStyle(hanger);
@@ -23,10 +31,11 @@
       rest: (parseFloat(css.getPropertyValue('--tilt')) || 0) * Math.PI / 180,
       lean: (parseFloat(css.getPropertyValue('--lean')) || 0) * Math.PI / 180,
       len: 150,
+      // start tilted so they swing in when the page opens
       theta: [0.2, -0.16, 0.16, -0.2][i % 4] * (reduceMotion ? 0 : 1),
       omega: 0,
       alpha: 0,
-      phi: 0,
+      phi: 0,    // the pill's own wobble under the thread
       phiV: 0,
       drag: null,
       seed: i * 1.7 + 0.4,
@@ -34,11 +43,17 @@
   }) : [];
   tags.forEach((t) => { t.theta += t.lean; t.phi = t.rest; });
 
-  /* ---------------- Spider-web silk ---------------- */
+  /* ---------------- Spider-web silk ----------------
+     Every tag gets two pieces of silk drawn here:
+       1. a beaded thread with dew drops (.thread)
+       2. a tent web that spreads over the top of the tag (.web--tag)
+     The funnel web that holds each thread to the letters is spun live with the
+     rest of the headline web (see "Web spun around the headline" below).
+     Each one is a little different (seeded random), so they look hand-spun. */
   const SVGNS = 'http://www.w3.org/2000/svg';
   const f1 = (n) => Math.round(n * 10) / 10;
 
-  function rng(seed) {
+  function rng(seed) { // tiny repeatable random
     let a = Math.floor(seed * 9301 + 49297) >>> 0;
     return () => {
       a = (a + 0x6D2B79F5) >>> 0;
@@ -49,6 +64,7 @@
     };
   }
 
+  // place an svg so that (0,0) in its drawing is the hanging point
   function placeSvg(svg, x0, y0, w, h) {
     svg.setAttribute('viewBox', `${f1(x0)} ${f1(y0)} ${f1(w)} ${f1(h)}`);
     svg.setAttribute('width', f1(w));
@@ -62,6 +78,8 @@
     (1 - t) * (1 - t) * p0[1] + 2 * (1 - t) * t * c[1] + t * t * p1[1],
   ];
 
+  /* A cone of spokes from the hanging point with sagging rings between them.
+     dir = -1 opens upward (funnel under the letters), +1 opens downward (tent over the tag). */
   function cone(r, { dir, width, height, spokes, rings, flare, dewChance }) {
     let spokePaths = '', ringPaths = '', dew = '';
     const ends = [];
@@ -78,14 +96,14 @@
     for (let k = 1; k <= rings; k++) {
       const base = Math.pow(k / (rings + 0.6), 1.15);
       for (let i = 0; i < spokes - 1; i++) {
-        if (r() < 0.07) continue;
+        if (r() < 0.07) continue; // a broken strand here and there
         const ta = Math.min(0.98, base + (r() - 0.5) * 0.05);
         const tb = Math.min(0.98, base + (r() - 0.5) * 0.05);
         const a = quad([0, 0], ctrls[i], ends[i], ta);
         const b = quad([0, 0], ctrls[i + 1], ends[i + 1], tb);
         const sag = Math.hypot(b[0] - a[0], b[1] - a[1]) * (0.16 + r() * 0.1);
         const mx = (a[0] + b[0]) / 2;
-        const my = (a[1] + b[1]) / 2 - dir * sag;
+        const my = (a[1] + b[1]) / 2 - dir * sag; // rings sag toward the hanging point
         ringPaths += `M${f1(a[0])} ${f1(a[1])}Q${f1(mx)} ${f1(my)} ${f1(b[0])} ${f1(b[1])}`;
         if (r() < dewChance) dew += `<circle class="dew" cx="${f1(a[0])}" cy="${f1(a[1])}" r="${f1(0.45 + r() * 0.5)}"/>`;
         if (r() < dewChance * 0.5) dew += `<circle class="dew" cx="${f1(mx)}" cy="${f1((a[1] + b[1]) / 2 - dir * sag * 0.5)}" r="${f1(0.4 + r() * 0.35)}"/>`;
@@ -97,6 +115,7 @@
   function drawThread(svg, len, r) {
     let d = `M0 0L0 ${f1(len)}`;
     let loose = '';
+    // a second strand that peels away from the thread and rejoins it (or drifts off)
     if (r() < 0.85) {
       const a = len * (0.08 + r() * 0.2);
       const b = len * (0.55 + r() * 0.35);
@@ -108,6 +127,7 @@
       const side = r() < 0.5 ? -1 : 1;
       loose += `M0 ${f1(a)}q${f1(side * 10)} ${f1(18)} ${f1(side * (16 + r() * 14))} ${f1(24 + r() * 20)}`;
     }
+    // dew drops strung along the silk
     let dew = '';
     for (let y = 3 + r() * 4; y < len - 3; y += 3.5 + r() * 6) {
       dew += `<circle class="dew" cx="${f1((r() - 0.5) * 0.4)}" cy="${f1(y)}" r="${f1(0.45 + r() * 0.55 + (r() < 0.08 ? 0.5 : 0))}"/>`;
@@ -121,8 +141,9 @@
   function drawTagWeb(svg, pill, r) {
     const pillW = pill.offsetWidth || 120;
     const width = Math.min(pillW * 0.62, 46 + r() * 22);
-    const height = 31;
+    const height = 31; // pill sits at top: 30px, so the tent tucks just under it
     const w = cone(r, { dir: 1, width, height, spokes: 8, rings: 8, flare: 0.2, dewChance: 0.3 });
+    // little feet where the tent glues onto the pill
     let feet = '';
     w.ends.forEach(([x, y]) => { if (r() < 0.5) feet += `M${f1(x)} ${f1(y - 1)}l${f1((r() - 0.5) * 5)} 2`; });
     placeSvg(svg, -width / 2 - 10, -4, width + 20, height + 8);
@@ -153,6 +174,7 @@
   window.addEventListener('resize', measure);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
 
+  /* Breeze: gentle sway + a gust that drifts left → right now and then */
   let gust = { start: 6, dur: 1.8, power: 1.8 };
   function windField(x, seed, time) {
     if (reduceMotion) return 0;
@@ -163,6 +185,9 @@
   }
   const windAt = (t, time) => windField(t.x, t.seed, time);
 
+  /* Grab & throw a tag */
+  // the hanging point is measured once when you grab a tag, so moving your
+  // finger never makes the browser re-measure the page (that was the lag)
   const pointerAngle = (d, e) => Math.atan2(-(e.clientX - d.px), e.clientY - d.py);
 
   tags.forEach((t) => {
@@ -197,7 +222,7 @@
       t.drag = null;
       t.pill.classList.remove('is-grabbing');
       t.hanger.style.zIndex = t.zBefore;
-      if (tap) {
+      if (tap) { // a little flick
         t.omega += (Math.random() < 0.5 ? -1 : 1) * (2.2 + Math.random() * 1);
         t.phiV += (Math.random() - 0.5) * 7;
       }
@@ -206,6 +231,9 @@
     t.pill.addEventListener('pointercancel', release);
   });
 
+  /* Brush past the tags with a finger or mouse to push them */
+  // (the finger is only remembered here; the tags are checked once per frame
+  //  in the main loop, before anything moves, so it costs almost nothing)
   let last = null, brush = null;
   if (field) {
     field.addEventListener('pointermove', (e) => {
@@ -233,6 +261,7 @@
   function stepTag(t, dt, time) {
     const prev = t.omega;
     if (t.drag) {
+      // follow the finger closely (a stiff, well-damped spring: no rubbery delay)
       const a = 3000 * (t.drag.target - t.theta) - 110 * t.omega;
       t.omega += a * dt;
     } else {
@@ -244,22 +273,35 @@
     if (t.theta < -MAX_ANGLE) { t.theta = -MAX_ANGLE; t.omega *= -0.3; }
     t.alpha = clamp((t.omega - prev) / dt, -400, 400);
 
+    // the pill lags behind the thread (double-pendulum feel), then settles to its crooked rest
     const pa = -140 * (t.phi - t.rest) - 5 * t.phiV - t.alpha * 0.03;
     t.phiV += pa * dt;
     t.phi = clamp(t.phi + t.phiV * dt, t.rest - 0.6, t.rest + 0.6);
   }
 
-  /* ---------------- Web spun around the headline ---------------- */
+  /* ---------------- Web spun around the headline ----------------
+     The headline is painted once onto a hidden canvas so the script knows exactly
+     where the letters' ink is. Silk is then spun from real letter edges:
+       - an orb web inside the O of LOOK
+       - little cobwebs tucked into corners and gaps between letters and lines
+       - loose strands draped over (and behind) the letters
+       - a funnel web under the last line that holds each tag's thread
+       - except the 2nd tag: its thread climbs past the last line and hangs
+         from a little cobweb in the gap between the last two lines
+     Every web hangs from a springy hub, so the breeze, your finger and the
+     swinging tags all stretch and wobble the silk. Front silk sits over the
+     letters with a soft shadow, back silk tucks behind them for depth. */
   const stage = document.getElementById('headlineStage');
   const title = document.getElementById('heroTitle');
-  const HUB_K = 260, HUB_DAMP = 7;
-  const APEX_K = 320, APEX_DAMP = 8.5;
-  const APEX_PULL = 0.0042;
-  const WIND_PUSH = 190;
-  const HIGH_ANCHOR = [1];
+  const HUB_K = 260, HUB_DAMP = 7;              // little webs: springiness / settling
+  const APEX_K = 320, APEX_DAMP = 8.5;          // funnel tip over each tag
+  const APEX_PULL = 0.0042;                     // how much a swinging tag tugs its funnel
+  const WIND_PUSH = 190;                        // how much the breeze moves the silk
+  const HIGH_ANCHOR = [1];                      // which tags (0 = first) hang from a cobweb between the lines
   let em = 34, W = 0, H = 0;
   let nodes = [], webs = [], drapes = [];
 
+  // wrap every letter so we can find it
   if (title && !title.dataset.split) {
     title.dataset.split = '1';
     const lines = title.innerHTML.split(/<br\s*\/?>/i).map((l) => l.replace(/<[^>]*>/g, '').trim());
@@ -303,6 +345,7 @@
       l.svg.setAttribute('height', H);
     });
 
+    // paint the headline onto a hidden canvas to know where the ink is
     const cs = getComputedStyle(title);
     em = parseFloat(cs.fontSize) || 34;
     const cv = document.createElement('canvas');
@@ -341,6 +384,7 @@
     const r = rng(11);
     const scale = em / 34;
 
+    /* a web = spokes from a hub out to letter edges, with sagging rings between them */
     function spin(hx, hy, o) {
       const { rays, maxR, from = 0, span = Math.PI * 2, closed = true, rings, flare = [0.5, 0.5],
         sag = 0.2, dew = 0.3, spiral = 0, layer = 'front', minHits = 3,
@@ -358,7 +402,7 @@
         for (let i = 0; i < rays; i++) {
           if (i + 1 >= rays && !closed) break;
           const j = (i + 1) % rays;
-          if (!spokes[i] || !spokes[j] || r() < 0.07) continue;
+          if (!spokes[i] || !spokes[j] || r() < 0.07) continue; // a broken strand here and there
           const ta = base + (spiral * i) / rays / rings + (r() - 0.5) * 0.05;
           const tb = base + (spiral * (i + 1)) / rays / rings + (r() - 0.5) * 0.05;
           if (ta > 0.97 || tb > 0.97) continue;
@@ -377,6 +421,7 @@
     const left = Math.min(...chars.map((c) => c.x));
     const right = Math.max(...chars.map((c) => c.x + c.w));
 
+    // 1) orb web in the O of LOOK
     const last = lines[lines.length - 1].chars;
     const o = last.find((c) => c.ch === 'O') || chars.find((c) => c.ch === 'O');
     let orb = null;
@@ -394,6 +439,8 @@
     const topEdge = (x, base) => { for (let y = base - capH - 4; y < base; y++) if (ink(x, y)) return y; return null; };
     const botEdge = (x, base) => { for (let y = base + 3; y > base - capH; y--) if (ink(x, y)) return y; return null; };
 
+    // 1b) the 2nd tag's thread climbs up past the last line and is tied to a
+    //     little cobweb stuck in the gap between the last two lines
     const anchors = [];
     if (lines.length > 1) {
       const upper = lines[lines.length - 2], lower = lines[lines.length - 1];
@@ -401,17 +448,19 @@
         if (!HIGH_ANCHOR.includes(i)) return;
         const hr = t.hanger.getBoundingClientRect();
         const ax = hr.left - sr.left, ay = hr.top - sr.top;
+        // clearest spot in the gap, as close above the thread as possible
         let best = null;
         for (let dx = -em * 0.4; dx <= em * 0.4; dx += 1) {
           const x = ax + dx;
           const yb = botEdge(x, upper.base), yt = topEdge(x, lower.base);
           const y0 = yb == null ? upper.base : yb, y1 = yt == null ? lower.base - capH : yt;
-          const y = y1 - Math.min(2, (y1 - y0) / 2);
+          const y = y1 - Math.min(2, (y1 - y0) / 2); // sits right on top of the lower line
           if (y1 - y0 < 2 || ink(x, y)) continue;
           const score = Math.min(y1 - y0, em * 0.3) - Math.abs(dx) * 0.12;
           if (!best || score > best.score) best = { x, y, score };
         }
         if (!best) best = { x: ax, y: (upper.base + lower.base - capH) / 2 };
+        // a small funnel opening upward, its spokes glued to the bottoms of the letters above
         const web = spin(best.x, best.y, {
           rays: 9, maxR: em * 1.1, from: -Math.PI / 2 - 1.05, span: 2.1, closed: false, rings: 8,
           flare: [0.12, 0.66], sag: 0.2, dew: 0.28, minHits: 3,
@@ -420,6 +469,7 @@
         const hub = web ? web.hub : makeNode(best.x, best.y, APEX_K, APEX_DAMP, 0.6, em * 0.2);
         if (web) {
           anchors.push(best);
+          // a few extra anchor lines gluing the little web to the letters
           web.spokes.forEach((e, k) => {
             if (!e) return;
             if (r() < 0.6) web.grip += `M${f1(e.x)} ${f1(e.y)}l${f1((r() - 0.5) * 6)} ${f1(-(1 + r() * 2.5))}`;
@@ -427,6 +477,7 @@
             if (n && r() < 0.5) web.grip += `M${f1(e.x)} ${f1(e.y)}Q${f1((e.x + n.x) / 2)} ${f1((e.y + n.y) / 2 + 2)} ${f1(n.x)} ${f1(n.y)}`;
           });
         }
+        // the point where the thread leaves the letters and the tag hangs from
         t.apex = makeNode(ax, ay, APEX_K * 0.8, APEX_DAMP, 0.5, em * 0.45);
         const len = Math.hypot(ax - best.x, ay - best.y);
         const dews = [];
@@ -435,6 +486,7 @@
       });
     }
 
+    // 2) little cobwebs tucked into corners and gaps
     const R = em * 0.42, N = 16, step = Math.max(2, em * 0.07);
     const cands = [];
     for (let y = top + 2; y < bottom - em * 0.04; y += step) {
@@ -460,8 +512,9 @@
       if (spin(cd.x, cd.y, { rays: 13, maxR: R * 1.08, rings: 4 + Math.floor(r() * 3), sag: 0.3, dew: 0.16 })) picked.push(cd);
     }
 
+    // 3) a funnel web under the last line holding every tag's thread
     tags.forEach((t) => {
-      if (t.climb) return;
+      if (t.climb) return; // this one hangs from the cobweb between the lines instead
       const hr = t.hanger.getBoundingClientRect();
       const ax = hr.left - sr.left, ay = hr.top - sr.top;
       const web = spin(ax, ay, {
@@ -471,6 +524,7 @@
       });
       if (!web) { t.apex = makeNode(ax, ay, APEX_K, APEX_DAMP, 0.5, em * 0.4); return; }
       t.apex = web.hub;
+      // anchor strands gripping the letters
       web.spokes.forEach((e, i) => {
         if (!e) return;
         if (r() < 0.6) web.grip += `M${f1(e.x)} ${f1(e.y)}l${f1((r() - 0.5) * 7)} ${f1(-(1 + r() * 3))}`;
@@ -479,6 +533,7 @@
       });
     });
 
+    // 4) loose strands draped from one line of letters down to the next
     const drapeCount = Math.min(5, (lines.length - 1) * 3);
     for (let n = 0, tries = 0; n < drapeCount && tries < 80; tries++) {
       const L = Math.floor(r() * (lines.length - 1));
@@ -500,12 +555,15 @@
     }
   }
 
+  /* -------- physics: every hub/strand is a damped spring that feels breeze, touch and tags -------- */
   function stepWeb(dt, time) {
+    // a swinging tag pulls its funnel's tip along the thread (more when it swings fast or you pull it)
     tags.forEach((t) => {
       if (!t.apex) return;
       const tension = GRAVITY * Math.cos(t.theta) + t.omega * t.omega * t.len + (t.drag ? (t.drag.stretch || 0) * 40 : 0);
       t.apex.fx = APEX_K * APEX_PULL * (tension * -Math.sin(t.theta));
       t.apex.fy = APEX_K * APEX_PULL * (tension * Math.cos(t.theta) - GRAVITY);
+      // a climbing thread passes the tug on up to the little cobweb it's tied to
       if (t.climb) { t.climb.hub.fx = t.apex.fx * 0.55; t.climb.hub.fy = t.apex.fy * 0.55; }
     });
     nodes.forEach((n) => {
@@ -519,6 +577,7 @@
     });
   }
 
+  // brush the headline with a finger or mouse to shake the silk
   let poke = null, pokes = [];
   if (stage) {
     stage.addEventListener('pointermove', (e) => {
@@ -547,6 +606,7 @@
     pokes = [];
   }
 
+  /* -------- drawing -------- */
   const dot = (x, y, rad) => `M${f1(x - rad)} ${f1(y)}a${f1(rad)} ${f1(rad)} 0 1 0 ${f1(rad * 2)} 0a${f1(rad)} ${f1(rad)} 0 1 0 ${f1(-rad * 2)} 0`;
   function paintWeb() {
     if (!layers) return;
@@ -563,7 +623,7 @@
         const b = quad(hp, ctrl[sg.j], [w.spokes[sg.j].x, w.spokes[sg.j].y], sg.tb);
         const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
         const vx = h.x - mx, vy = h.y - my, vl = Math.hypot(vx, vy) || 1;
-        const s = Math.hypot(b[0] - a[0], b[1] - a[1]) * sg.sag;
+        const s = Math.hypot(b[0] - a[0], b[1] - a[1]) * sg.sag; // rings sag toward the hub
         o[1] += `M${f1(a[0])} ${f1(a[1])}Q${f1(mx + (vx / vl) * s)} ${f1(my + (vy / vl) * s)} ${f1(b[0])} ${f1(b[1])}`;
       });
       o[1] += w.grip;
@@ -573,6 +633,7 @@
         o[3] += dot(p[0], p[1], d.rad);
       });
     });
+    // the climbing thread: from the little cobweb between the lines down over the letters to its tag
     tags.forEach((t) => {
       if (!t.climb || !t.apex) return;
       const o = out.front, h = t.climb.hub, a = t.apex;
@@ -600,13 +661,23 @@
   buildWeb();
   paintWeb();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(rebuild);
-  let resizeQueued = false;
+  /* Only re-spin the web when the page really changes width.
+     On phones the browser fires "resize" for lots of other reasons (the address bar
+     sliding, or a tag swinging past the right edge and making the page wider for a
+     moment). Each re-spin repaints the whole headline, so doing it mid-swing was the
+     frame drop on the right side. */
+  let builtW = window.innerWidth, resizeTimer = 0;
   window.addEventListener('resize', () => {
-    if (resizeQueued) return;
-    resizeQueued = true;
-    requestAnimationFrame(() => { resizeQueued = false; rebuild(); });
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const w = window.innerWidth;
+      if (Math.abs(w - builtW) < 2) return;
+      builtW = w;
+      rebuild();
+    }, 150);
   });
 
+  /* ---------------- Main loop ---------------- */
   let lastT = performance.now();
   function frame(now) {
     const time = now / 1000;
@@ -620,6 +691,7 @@
         power: (Math.random() < 0.5 ? -1 : 1) * (1.2 + Math.random() * 1.3),
       };
     }
+    // all measuring happens here, before anything is moved this frame
     applyBrush();
     applyPokes();
 
@@ -633,6 +705,7 @@
       const sw = t.theta.toFixed(4) + 'rad', tg = (t.phi - t.theta * 0.15).toFixed(4) + 'rad';
       if (sw !== t.lastSw) { t.lastSw = sw; t.swing.style.rotate = sw; }
       if (tg !== t.lastTg) { t.lastTg = tg; t.tag.style.rotate = tg; }
+      // the thread hangs from the funnel's tip, which gets tugged around by the tag
       if (t.apex) {
         const tr = `${f1(t.apex.x - t.apex.rx)}px ${f1(t.apex.y - t.apex.ry)}px`;
         if (tr !== t.lastTr) { t.lastTr = tr; t.swing.style.translate = tr; }
@@ -643,7 +716,7 @@
   }
   requestAnimationFrame(frame);
 
-  /* ---------------- Dock press + drop sound ---------------- */
+  /* ---------------- Dock press + drop sound (from your old page) ---------------- */
   const dock = document.querySelector('.glass-dock');
   if (!dock) return;
   let audioContext;
@@ -668,7 +741,7 @@
       gain.connect(audioContext.destination);
       osc.start(now);
       osc.stop(now + 0.15);
-    } catch (_) {}
+    } catch (_) { /* sound is optional */ }
   }
 
   function animate(item) {
