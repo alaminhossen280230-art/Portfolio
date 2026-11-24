@@ -175,36 +175,6 @@
 
   const windAt = (t, time) => windField(t.x, t.seed, time);
 
-  /* Phone tilt: tags keep hanging toward the real ground */
-  let tilt = 0;
-  let tiltTarget = 0;
-
-  function onMotion(e) {
-    const g = e.accelerationIncludingGravity;
-    if (!g || g.x == null) return;
-    let ax = g.x, ay = g.y;
-    const angle = (screen.orientation && screen.orientation.angle) || window.orientation || 0;
-    if (angle !== 0) { tiltTarget = 0; return; }
-    if (ay < 0) { ax = -ax; ay = -ay; }
-    tiltTarget = Math.hypot(ax, ay) < 3 ? 0 : clamp(Math.atan2(ax, ay), -0.7, 0.7);
-  }
-
-  let motionAsked = false;
-
-  function enableMotion() {
-    if (motionAsked) return;
-    motionAsked = true;
-    const DME = window.DeviceMotionEvent;
-    if (!DME) return;
-    if (typeof DME.requestPermission === 'function') {
-      DME.requestPermission().then((s) => { if (s === 'granted') window.addEventListener('devicemotion', onMotion); }).catch(() => {});
-    } else {
-      window.addEventListener('devicemotion', onMotion);
-    }
-  }
-
-  if (window.DeviceMotionEvent && typeof window.DeviceMotionEvent.requestPermission !== 'function') enableMotion();
-
   /* Grab & throw a tag */
   function pointerAngle(t, e) {
     const r = t.hanger.getBoundingClientRect();
@@ -214,7 +184,6 @@
   tags.forEach((t) => {
     t.pill.addEventListener('pointerdown', (e) => {
       if (e.pointerType === 'mouse' && e.button !== 0) return;
-      enableMotion();
       t.pill.setPointerCapture(e.pointerId);
       t.pill.classList.add('is-grabbing');
       t.zBefore = t.hanger.style.zIndex;
@@ -280,7 +249,7 @@
       const a = 380 * (t.drag.target - t.theta) - 36 * t.omega;
       t.omega += a * dt;
     } else {
-      const a = -(GRAVITY / t.len) * Math.sin(t.theta - t.lean - tilt) - DAMPING * t.omega + windAt(t, time);
+      const a = -(GRAVITY / t.len) * Math.sin(t.theta - t.lean) - DAMPING * t.omega + windAt(t, time);
       t.omega += a * dt;
     }
     t.theta += t.omega * dt;
@@ -685,8 +654,6 @@
         power: (Math.random() < 0.5 ? -1 : 1) * (1.2 + Math.random() * 1.3),
       };
     }
-
-    tilt += (tiltTarget - tilt) * Math.min(1, dt * 4);
 
     const steps = 4, h = dt / steps;
     for (let s = 0; s < steps; s++) {
