@@ -261,7 +261,7 @@ body {
 .silk--ring  { stroke-width: 0.5; opacity: 0.85; }
 .silk--main  { stroke-width: 0.9; }
 .silk--loose { stroke-width: 0.55; opacity: 0.6; }
-.dew { fill: #fff; }
+.dew { fill: #000; }
 
 /* web spun around the headline: front silk over the letters, back silk behind them */
 .title-web {
@@ -279,7 +279,7 @@ body {
 /* soft shadow under every strand so the silk floats off the letters
    (no blur filters here: this silk is redrawn every frame, and filters made dragging lag on phones) */
 .tw-shadow { transform: translate(0.7px, 1.3px); opacity: 0.35; }
-.tw-shadow .silk { stroke: rgba(0, 0, 0, 0.7); }
+.tw-shadow .silk { stroke: rgba(20, 32, 55, 0.7); }
 .tw-shadow .dew  { fill: rgba(20, 32, 55, 0.6); }
 
 .hanger {
