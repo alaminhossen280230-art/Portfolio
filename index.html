@@ -7,16 +7,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./style.css?v=8" />
+  <link rel="stylesheet" href="./style.css?v=13" />
 </head>
 <body>
   <main class="viewport">
     <div class="canvas">
       <section class="hero-cluster">
+
         <div class="status-pill">
           <div class="avatar-ring">
-            <img src="./avatar.jpg" alt="Alif" class="avatar-img" onerror="this.style.display='none'" />
             <span class="avatar-fallback" aria-hidden="true">A</span>
+            <img src="./avatar.jpg" alt="Alif" class="avatar-img" onerror="this.style.display='none'" />
           </div>
           <span class="brand-name">ALIF.</span>
           <span class="status-indicator"><span class="pulse-dot" aria-hidden="true"></span><span class="status-text">Available for work</span></span>
@@ -24,15 +25,76 @@
 
         <div class="headline-stage" id="headlineStage">
           <h1 class="hero-title" id="heroTitle">DESIGN THAT<br />MAKES PEOPLE<br />LOOK TWICE</h1>
-          <a href="#resume" class="resume-btn">
-            <span>Resume</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-          </a>
-          <div class="roles-field" aria-label="Areas of work">
-            <div class="role-pill pill-uiux"><span aria-hidden="true">✦</span><span>UI/UX Designer</span></div>
-            <div class="role-pill pill-motion"><span aria-hidden="true">▣</span><span>Motion Designer</span></div>
-            <div class="role-pill pill-video"><span aria-hidden="true">‹/›</span><span>Video Editor</span></div>
-            <div class="role-pill pill-web"><span aria-hidden="true">▤</span><span>Web Developer</span></div>
+
+          <div class="roles-field" id="rolesField">
+            <a href="#resume" class="resume-btn">
+              <span>Resume</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </a>
+
+            <!--
+              Each tag hangs from the headline on a spider-web thread.
+              --x    = where the thread starts (0 = left, 1 = right)
+              --len  = how long the thread is
+              --lean = which way the thread likes to lean
+              --tilt = how crooked the tag likes to hang
+              All the silk (web around the letters, funnel, beaded thread, tent over the tag) is drawn by script.js.
+            -->
+            <div class="roles" aria-label="Areas of work">
+
+              <div class="hanger" style="--x:.30; --len:70px; --lean:-3deg; --tilt:-8deg; z-index:4">
+                <div class="swing">
+                  <svg class="thread" aria-hidden="true"></svg>
+                  <div class="role-tag">
+                    <svg class="web web--tag" aria-hidden="true"></svg>
+                    <div class="role-pill pill-uiux">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg>
+                      <span>UI/UX Designer</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hanger" style="--x:.41; --len:134px; --lean:6deg; --tilt:4deg; z-index:2">
+                <div class="swing">
+                  <svg class="thread" aria-hidden="true"></svg>
+                  <div class="role-tag">
+                    <svg class="web web--tag" aria-hidden="true"></svg>
+                    <div class="role-pill pill-video">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"/></svg>
+                      <span>Video Editor</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hanger" style="--x:.58; --len:88px; --lean:-17deg; --tilt:6deg; z-index:3">
+                <div class="swing">
+                  <svg class="thread" aria-hidden="true"></svg>
+                  <div class="role-tag">
+                    <svg class="web web--tag" aria-hidden="true"></svg>
+                    <div class="role-pill pill-motion">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M3 11h18M7 7l2-4M13 7l2-4"/></svg>
+                      <span>Motion Designer</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hanger" style="--x:.68; --len:152px; --lean:-4deg; --tilt:-7deg; z-index:1">
+                <div class="swing">
+                  <svg class="thread" aria-hidden="true"></svg>
+                  <div class="role-tag">
+                    <svg class="web web--tag" aria-hidden="true"></svg>
+                    <div class="role-pill pill-web">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8"/></svg>
+                      <span>Web Developer</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
       </section>
@@ -58,60 +120,6 @@
     </div>
   </main>
 
-  <script>
-    (() => {
-      const dock = document.querySelector('.glass-dock');
-      if (!dock) return;
-      let audioContext;
-      let lastPointerTime = 0;
-
-      function playDropSound() {
-        try {
-          const AudioContext = window.AudioContext || window.webkitAudioContext;
-          if (!AudioContext) return;
-          audioContext ||= new AudioContext();
-          if (audioContext.state === 'suspended') audioContext.resume();
-          const now = audioContext.currentTime;
-          const oscillator = audioContext.createOscillator();
-          const gain = audioContext.createGain();
-          oscillator.type = 'sine';
-          oscillator.frequency.setValueAtTime(980, now);
-          oscillator.frequency.exponentialRampToValueAtTime(430, now + 0.11);
-          gain.gain.setValueAtTime(0.0001, now);
-          gain.gain.exponentialRampToValueAtTime(0.09, now + 0.008);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.14);
-          oscillator.connect(gain);
-          gain.connect(audioContext.destination);
-          oscillator.start(now);
-          oscillator.stop(now + 0.15);
-        } catch (_) { /* Audio is optional; interaction still works if unavailable. */ }
-      }
-
-      function animate(item) {
-        item.classList.remove('is-pressed');
-        void item.offsetWidth;
-        item.classList.add('is-pressed');
-        window.setTimeout(() => item.classList.remove('is-pressed'), 240);
-      }
-
-      dock.addEventListener('pointerdown', (event) => {
-        const item = event.target.closest('.dock-item');
-        if (!item || (event.pointerType === 'mouse' && event.button !== 0)) return;
-        lastPointerTime = Date.now();
-        animate(item);
-        playDropSound();
-      }, { passive: true });
-
-      dock.addEventListener('click', (event) => {
-        const item = event.target.closest('.dock-item');
-        if (!item) return;
-        // Keyboard activation has no pointerdown, so provide the same feedback.
-        if (Date.now() - lastPointerTime > 700) {
-          animate(item);
-          playDropSound();
-        }
-      });
-    })();
-  </script>
+  <script src="./script.js?v=13"></script>
 </body>
 </html>
