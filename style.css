@@ -1,12 +1,11 @@
 /* ===========================================================
    ALIF. — Home: glass UI + tags hanging on spider-web threads
    =========================================================== */
-
 :root {
-  --ink: #10172c;
-  --ink-soft: #35415c;
-  --glass: rgba(255, 255, 255, 0.68);
-  --glass-line: rgba(255, 255, 255, 0.88);
+  --ink: #141414;
+  --ink-soft: #3a3a3a;
+  --glass: rgba(255, 255, 255, 0.62);
+  --glass-line: rgba(255, 255, 255, 0.75);
   --silk: rgba(255, 255, 255, 0.92);
   --font: "Inter", system-ui, -apple-system, sans-serif;
 }
@@ -37,11 +36,10 @@ body {
   justify-content: center;
 }
 
-
 .canvas {
   width: 100%;
   max-width: 640px;
-  padding: clamp(30px, 6vh, 62px) 14px 130px;
+  padding: clamp(48px, 24vh, 260px) 14px 130px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -140,51 +138,75 @@ body {
   align-items: center;
 }
 
-
 .hero-title {
   position: relative;
   z-index: 2;
   font-weight: 900;
   font-size: clamp(31px, 8.8vw, 64px);
   line-height: 1.02;
-  letter-spacing: 0;
+  letter-spacing: -0.045em;
   text-align: center;
   color: var(--ink);
-  background: linear-gradient(180deg, #3b465f 0%, #172036 24%, #070b15 54%, #010207 100%);
+  /* glossy ink: every line gets its own light-on-top, deep-at-the-bottom sheen
+     (the band repeats once per line, 1.02em = line-height) */
+  background: repeating-linear-gradient(
+    180deg,
+    #484c66 0,
+    #25283b 0.3em,
+    #10111a 0.5em,
+    #05060b 0.74em,
+    #1d2033 0.9em,
+    #3a3e57 1.02em
+  );
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 0.8px rgba(7, 12, 27, 0.94);
-  text-shadow:
-    0 1px 0 #8b96ad,
-    0 2px 0 #58637b,
-    0 3px 0 #303a53,
-    0 4px 0 #141c30,
-    0 6px 0 #080d19,
-    0 9px 12px rgba(27, 43, 74, 0.42),
-    0 0 24px rgba(255, 255, 255, 0.72);
+  /* thin white rim + raised 3D drop + soft halo, like the letters are embossed on glass
+     (static filter on the title only — the silk is drawn in separate layers, so dragging stays smooth) */
+  filter:
+    drop-shadow(0 -0.5px 0 rgba(255, 255, 255, 0.95))
+    drop-shadow(0 0 1px rgba(255, 255, 255, 0.9))
+    drop-shadow(0 1.5px 0 #2a2d40)
+    drop-shadow(0 1.5px 0 #171926)
+    drop-shadow(0 6px 6px rgba(15, 22, 50, 0.32))
+    drop-shadow(0 0 16px rgba(255, 255, 255, 0.75));
 }
-.hero-title::before,
-.hero-title::after {
+.hero-title .ch { -webkit-text-fill-color: transparent; }
+
+/* little twinkling sparkles around the headline (sized in the title's own em, so they follow it) */
+.headline-stage::before,
+.headline-stage::after {
+  content: "";
   position: absolute;
   z-index: 4;
-  color: #fff;
-  -webkit-text-fill-color: #fff;
-  -webkit-text-stroke: 0;
-  font-size: clamp(12px, 3.4vw, 22px);
-  line-height: 1;
-  text-shadow: 0 0 4px #fff, 0 0 12px rgba(255, 255, 255, 0.92);
+  top: -0.2em;
+  left: 50%;
+  translate: -50% 0;
+  width: 7.6em;
+  height: 3.6em;
+  font-size: clamp(31px, 8.8vw, 64px);
   pointer-events: none;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 8px rgba(190, 215, 255, 0.8));
+  animation: twinkle 3.2s ease-in-out infinite;
 }
-.hero-title::before {
-  content: "✦";
-  top: -0.12em;
-  left: 2%;
+.headline-stage::before {
+  background-image: var(--sparkle), var(--sparkle);
+  background-size: 0.52em 0.52em, 0.4em 0.4em;
+  background-position: 0.55em -0.05em, -0.05em 1.2em;
 }
-.hero-title::after {
-  content: "✦";
-  right: 2%;
-  bottom: -0.05em;
+.headline-stage::after {
+  background-image: var(--sparkle), var(--sparkle);
+  background-size: 0.36em 0.36em, 0.56em 0.56em;
+  background-position: 6.75em 0.05em, 6.85em 2.85em;
+  animation-delay: -1.6s;
+}
+:root {
+  --sparkle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12 0C12.7 7.3 16.7 11.3 24 12 16.7 12.7 12.7 16.7 12 24 11.3 16.7 7.3 12.7 0 12 7.3 11.3 11.3 7.3 12 0z'/%3E%3C/svg%3E");
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.45; }
 }
 
 /* ---------- Field under the headline ---------- */
@@ -286,95 +308,90 @@ body {
 }
 
 /* ---------- Glossy pills ---------- */
-
 .role-pill {
-  --c1: #70e2a0;
-  --c2: #228b5d;
-  --glow: rgba(34, 139, 93, 0.5);
+  --c1: #6cc98a;
+  --c2: #3f9e62;
+  --rim: #2f8a52;
+  --glow: rgba(63, 158, 98, 0.45);
+  --icon: none;
   position: absolute;
   top: 30px; /* room for the tent web above the tag */
   left: 0;
   translate: -50% 0;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  padding: 10px 16px 10px 14px;
+  gap: 8px;
+  padding: 8px 17px 9px 13px;
   border-radius: 999px;
   white-space: nowrap;
   color: #fff;
-  font-weight: 600;
-  font-size: clamp(13px, 3.5vw, 16px);
-  letter-spacing: 0;
-  text-shadow: 0 1px 2px rgba(10, 24, 46, 0.3);
+  font-weight: 700;
+  font-size: clamp(12.5px, 3.4vw, 15.5px);
+  letter-spacing: 0.005em;
+  text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.22);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.46) 0%, rgba(255, 255, 255, 0.1) 43%, rgba(255, 255, 255, 0) 58%),
-    linear-gradient(135deg, var(--c1), var(--c2));
-  border: 1px solid rgba(255, 255, 255, 0.72);
+    radial-gradient(120% 90% at 50% 0%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(180deg, var(--c1) 0%, var(--c2) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
   box-shadow:
-    0 12px 24px -8px var(--glow),
-    0 4px 9px rgba(17, 35, 69, 0.18),
-    inset 0 2px 0 rgba(255, 255, 255, 0.66),
-    inset 0 -3px 5px rgba(0, 0, 0, 0.13);
+    0 3px 0 -0.5px var(--rim),               /* thick candy edge under the pill */
+    0 14px 22px -8px var(--glow),            /* coloured glow on the sky */
+    0 6px 10px -4px rgba(20, 30, 60, 0.22),
+    inset 0 2px 1px rgba(255, 255, 255, 0.6),  /* bright top lip */
+    inset 0 -3px 5px rgba(0, 0, 0, 0.14),      /* darker bottom bevel */
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12);
   cursor: grab;
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
 }
-.role-pill::before {
+/* glassy shine across the top half */
+.role-pill::after {
   content: "";
   position: absolute;
-  inset: 2px 4px auto;
-  height: 38%;
-  border-radius: inherit;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0));
+  z-index: -1;
+  left: 9px;
+  right: 9px;
+  top: 2px;
+  height: 46%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.04));
   pointer-events: none;
 }
-.role-pill > svg,
-.role-pill > span {
-  position: relative;
-  z-index: 1;
+/* the icon (drawn here so it matches the reference exactly) */
+.role-pill > svg { display: none; }
+.role-pill::before {
+  content: "";
+  width: 17px;
+  height: 17px;
+  flex: none;
+  background: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
 }
-.role-pill svg { width: 17px; height: 17px; flex: none; }
+.role-pill > span { position: relative; }
 .role-pill.is-grabbing { cursor: grabbing; }
 
-/* Keep the reference's code and play symbols while leaving the page markup intact. */
-.pill-uiux > svg,
-.pill-video > svg { display: none; }
-.pill-uiux > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+/* a different cozy colour + icon for each tag */
+.pill-uiux {
+  --c1: #78d498; --c2: #3fa265; --rim: #2e8550; --glow: rgba(62, 159, 99, 0.55);
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7.5 7 2.5 12l5 5M16.5 7l5 5-5 5M13.6 4.5l-3.2 15'/%3E%3C/svg%3E");
 }
-.pill-uiux > span::before {
-  content: "</>";
-  font-family: monospace;
-  font-size: 1.06em;
-  font-weight: 800;
-  line-height: 1;
+.pill-motion {
+  --c1: #c597f5; --c2: #9157e2; --rim: #7640c4; --glow: rgba(148, 92, 225, 0.55);
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' fill-rule='evenodd' d='M3 5.6A1.6 1.6 0 0 1 4.6 4h14.8A1.6 1.6 0 0 1 21 5.6V8.4H3zM8.2 4h2.3l-2.4 4.4H5.8zM13.2 4h2.3l-2.4 4.4h-2.3zM18.2 4h2.3l-2.4 4.4h-2.3zM3 9.6h18v8.8a1.6 1.6 0 0 1-1.6 1.6H4.6A1.6 1.6 0 0 1 3 18.4zM10 12.2v5.6l4.7-2.8z'/%3E%3C/svg%3E");
 }
-.pill-video > span {
-  display: inline-flex;
-  align-items: center;
+.pill-video {
+  --c1: #6fa6f7; --c2: #336ce0; --rim: #2556bf; --glow: rgba(51, 108, 224, 0.55);
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M7 5.2v13.6a1.3 1.3 0 0 0 2 1.1l10.6-6.8a1.3 1.3 0 0 0 0-2.2L9 4.1a1.3 1.3 0 0 0-2 1.1z'/%3E%3C/svg%3E");
 }
-.pill-video > span::before {
-  content: "";
-  width: 0;
-  height: 0;
-  margin-right: 7px;
-  border-top: 7px solid transparent;
-  border-bottom: 7px solid transparent;
-  border-left: 11px solid currentColor;
-  filter: drop-shadow(0 1px 1px rgba(10, 24, 46, 0.28));
+.pill-web {
+  --c1: #f8a0bc; --c2: #e1648d; --rim: #c44b74; --glow: rgba(225, 100, 141, 0.55);
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4.5' y='4.5' width='15' height='11' rx='1.8'/%3E%3Cpath d='M2 19.5h20'/%3E%3C/svg%3E");
 }
-
-/* a different cozy colour for each tag */
-.pill-uiux   { --c1: #73e3a2; --c2: #19875a; --glow: rgba(25, 135, 90, 0.52); }
-.pill-motion { --c1: #d8a2ff; --c2: #923fe1; --glow: rgba(146, 63, 225, 0.5); }
-.pill-video  { --c1: #87c8ff; --c2: #2472e8; --glow: rgba(36, 114, 232, 0.52); }
-.pill-web    { --c1: #ff9fc6; --c2: #df4a86; --glow: rgba(223, 74, 134, 0.52); }
 
 /* ---------- Dock ---------- */
-
 .glass-dock {
   position: fixed;
   left: 50%;
@@ -383,80 +400,106 @@ body {
   z-index: 20;
   display: flex;
   align-items: center;
-  padding: 11px 9px 9px;
-  border-radius: 36px;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.82), rgba(255, 250, 255, 0.58));
+  padding: 12px 12px 10px;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 248, 242, 0.58));
   border: 1px solid rgba(255, 255, 255, 0.9);
-  -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  backdrop-filter: blur(18px) saturate(1.5);
   box-shadow:
-    0 18px 36px -16px rgba(27, 43, 74, 0.36),
-    inset 0 1px 0 rgba(255, 255, 255, 0.88),
-    inset 0 -2px 0 rgba(255, 255, 255, 0.4);
+    0 20px 40px -18px rgba(60, 40, 30, 0.45),
+    0 4px 12px -6px rgba(60, 40, 30, 0.18),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -2px 6px rgba(160, 120, 90, 0.08);
 }
-
 
 .dock-item {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 7px;
-  width: 68px;
-  color: #1b2540;
+  gap: 6px;
+  width: 80px;
+  color: #1c1e2b;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 600;
+  letter-spacing: 0.005em;
 }
 .dock-item + .dock-item::before { /* divider */
   content: "";
   position: absolute;
   left: 0;
-  top: 10px;
-  bottom: 18px;
-  width: 1px;
-  background: rgba(60, 60, 70, 0.14);
+  top: 8px;
+  bottom: 22px;
+  width: 1.5px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, rgba(60, 60, 70, 0), rgba(60, 60, 70, 0.22) 30%, rgba(60, 60, 70, 0.22) 70%, rgba(60, 60, 70, 0));
 }
 
-
 .dock-tile {
-  --c1: #b98cff;
-  --c2: #8150e8;
+  --c1: #b48af5;
+  --c2: #7d55e2;
+  --rim: #6740c8;
   position: relative;
-  width: 52px;
-  height: 52px;
-  border-radius: 17px;
+  isolation: isolate;
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
   display: grid;
   place-items: center;
   color: #fff;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0) 55%),
-    linear-gradient(150deg, var(--c1), var(--c2));
-  border: 1px solid rgba(255, 255, 255, 0.58);
+    radial-gradient(110% 80% at 50% 0%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(180deg, var(--c1), var(--c2));
+  border: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow:
-    0 10px 18px -8px var(--c2),
-    0 3px 6px rgba(17, 35, 69, 0.13),
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    inset 0 -2px 3px rgba(0, 0, 0, 0.1);
+    0 3px 0 -0.5px var(--rim),
+    0 12px 18px -8px var(--c2),
+    0 4px 8px -4px rgba(20, 30, 60, 0.25),
+    inset 0 2px 1px rgba(255, 255, 255, 0.6),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.14);
   transition: translate 0.2s;
 }
-.tile-projects { --c1: #bd91ff; --c2: #8249e9; }
-.tile-contact  { --c1: #7cc3ff; --c2: #327ce8; }
-.tile-about    { --c1: #ffa9ce; --c2: #e95b91; }
-.tile-social   { --c1: #77e7c8; --c2: #2eb699; }
+/* glass shine on the top half of each tile */
+.dock-tile::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 5px;
+  right: 5px;
+  top: 3px;
+  height: 45%;
+  border-radius: 13px 13px 10px 10px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.03));
+  pointer-events: none;
+}
+.dock-tile svg {
+  width: 26px;
+  height: 26px;
+  stroke-width: 2.1;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.18));
+}
+.tile-projects { --c1: #bd90f7; --c2: #8150e3; --rim: #6a3dc6; }
+.tile-contact  { --c1: #6db2f9; --c2: #3572e0; --rim: #275bc0; }
+.tile-about    { --c1: #fbaecb; --c2: #ea6e9c; --rim: #cc5583; }
+.tile-social   { --c1: #6fe0b4; --c2: #27ad7f; --rim: #1d8f68; }
+
+/* Social uses a "share" icon like the reference */
 .tile-social svg { display: none; }
 .tile-social::before {
   content: "";
-  width: 24px;
-  height: 24px;
-  background-color: currentColor;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='18' cy='5' r='3'/%3E%3Ccircle cx='6' cy='12' r='3'/%3E%3Ccircle cx='18' cy='19' r='3'/%3E%3Cpath d='m8.59 13.51 6.83 3.98M15.41 6.51 8.59 10.49'/%3E%3C/svg%3E") center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='18' cy='5' r='3'/%3E%3Ccircle cx='6' cy='12' r='3'/%3E%3Ccircle cx='18' cy='19' r='3'/%3E%3Cpath d='m8.59 13.51 6.83 3.98M15.41 6.51 8.59 10.49'/%3E%3C/svg%3E") center / contain no-repeat;
+  width: 26px;
+  height: 26px;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='18' cy='5' r='3'/%3E%3Ccircle cx='6' cy='12' r='3'/%3E%3Ccircle cx='18' cy='19' r='3'/%3E%3Cpath d='m8.6 13.5 6.8 4M15.4 6.5l-6.8 4'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='18' cy='5' r='3'/%3E%3Ccircle cx='6' cy='12' r='3'/%3E%3Ccircle cx='18' cy='19' r='3'/%3E%3Cpath d='m8.6 13.5 6.8 4M15.4 6.5l-6.8 4'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 .dock-item:hover .dock-tile { translate: 0 -3px; }
 .dock-item:focus-visible { outline: none; }
-.dock-item:focus-visible .dock-tile { outline: 2px solid var(--ink); outline-offset: 2px; }
+.dock-item:focus-visible .dock-tile { outline: 2px solid #1d1d1f; outline-offset: 2px; }
 .dock-item.is-pressed .dock-tile { animation: press 0.24s ease; }
 @keyframes press {
   0%   { scale: 1; }
@@ -466,10 +509,11 @@ body {
 }
 
 @media (max-width: 360px) {
-  .dock-item { width: 64px; }
+  .dock-item { width: 70px; }
   .status-indicator, .brand-name { font-size: 13px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .pulse-dot::after { animation: none; }
-}
+  .headline-stage::before, .headline-stage::after { animation: none; }
+                 }
