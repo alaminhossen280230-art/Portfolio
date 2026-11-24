@@ -223,7 +223,7 @@ body {
 .resume-btn {
   position: absolute;
   z-index: 10;
-  top: 75px;
+  top: 450px;
   left: 50%;
   translate: -50% 0;
   display: inline-flex;
