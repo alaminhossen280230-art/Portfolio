@@ -19,7 +19,7 @@ body {
   /* BACKGROUND: put your picture next to this file and name it bg.jpg
      (or change the name here). The sky gradient only shows if it's missing. */
   background:
-    url("./backgroundg.jpg") center top / cover no-repeat,
+    url("./background.png") center top / cover no-repeat,
     linear-gradient(180deg, #7fb0e4 0%, #b8d4ef 38%, #e8dcc8 66%, #d6b597 100%);
   background-color: #b8d4ef;
   min-height: 100vh;
