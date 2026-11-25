@@ -1,10 +1,12 @@
-/* Keep carousel changes responsive on slower phones: animate only the card
-   transform/opacity, and keep the easing short so controls feel immediate. */
+/* Carousel performance.
+   Every card (and the two paper sheets behind it) is drawn once and kept
+   ready on the graphics chip, so swiping only moves finished pictures around
+   instead of redrawing shadows on every frame. */
 .card {
   transition:
     transform 160ms cubic-bezier(.2, .75, .25, 1),
     opacity 120ms ease;
-  will-change: auto;
+  will-change: transform, opacity;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
@@ -12,6 +14,7 @@
 .card::before,
 .card::after {
   transition: opacity 120ms ease;
+  will-change: opacity;
 }
 
 .dot {
@@ -22,8 +25,6 @@
 }
 .dot.is-active { transform: scale(1.1); }
 
-/* Enable layer promotion only during a finger drag to avoid excess GPU memory. */
-.track.is-dragging .card { will-change: transform; }
 .track.is-dragging .card,
 .track.is-dragging .card::before,
 .track.is-dragging .card::after { transition: none; }
