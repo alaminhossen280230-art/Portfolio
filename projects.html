@@ -98,7 +98,7 @@
           <div class="sheet">
             <div class="tape tape--sky"></div>
             <div class="thumb thumb--motion" style="position: relative; background: #0f111a;">
-              <video src="./New%20Project%206%20%5B9B9A81F%5D.mp4#t=0.5" muted loop playsinline preload="metadata" style="width: 100%; height: 100%; object-fit: cover; display: block;"></video>
+              <img src="./image_dc889585.jpg" alt="SaaS Launch Promo Cover" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
               <div class="player">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
                 <div class="bar"><span></span></div>
@@ -112,7 +112,7 @@
             </div>
             <div class="card-foot">
               <span class="count"></span>
-              <a class="explore" href="./New%20Project%206%20%5B9B9A81F%5D.mp4" target="_blank" rel="noopener">Watch <span aria-hidden="true">↗</span></a>
+              <button class="explore" type="button" onclick="openVideoModal('./New%20Project%206%20%5B9B9A81F%5D.mp4')">Watch <span aria-hidden="true">↗</span></button>
             </div>
           </div>
         </article>
@@ -125,5 +125,31 @@
     <div class="dots" id="dots" aria-label="Choose a project"></div>
     <p class="hint">Swipe to explore <span aria-hidden="true">← →</span></p>
   </main>
+
+  <div id="videoModal" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(10, 10, 14, 0.96); align-items: center; justify-content: center; padding: 16px;" onclick="if(event.target === this) closeVideoModal()">
+    <button type="button" aria-label="Close video" onclick="closeVideoModal()" style="position: fixed; top: 18px; right: 18px; z-index: 10000; width: 42px; height: 42px; border-radius: 50%; background: rgba(255, 255, 255, 0.16); color: #fff; font-size: 20px; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, 0.25);">✕</button>
+    <video id="modalVideoPlayer" controls playsinline style="width: 100%; max-width: 960px; max-height: 85vh; border-radius: 14px; background: #000; box-shadow: 0 20px 50px rgba(0,0,0,0.75);"></video>
+  </div>
+
+  <script>
+    function openVideoModal(src) {
+      const modal = document.getElementById('videoModal');
+      const vid = document.getElementById('modalVideoPlayer');
+      vid.src = src;
+      modal.style.display = 'flex';
+      vid.play().catch(() => {});
+      if (vid.requestFullscreen) vid.requestFullscreen().catch(() => {});
+      else if (vid.webkitEnterFullscreen) { try { vid.webkitEnterFullscreen(); } catch (_) {} }
+    }
+    function closeVideoModal() {
+      const modal = document.getElementById('videoModal');
+      const vid = document.getElementById('modalVideoPlayer');
+      vid.pause();
+      vid.removeAttribute('src');
+      vid.load();
+      modal.style.display = 'none';
+    }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeVideoModal(); });
+  </script>
 </body>
 </html>
