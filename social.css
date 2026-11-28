@@ -272,3 +272,12 @@ i { font-style: normal; }
 .s3 { top: 96px; } .s4 { top: 104px; }
 .r-title { white-space: nowrap; font-size: clamp(10px, 3.1vw, 14px); letter-spacing: .03em; }
 .r-open { white-space: nowrap; }
+
+/* ---------- sit everything lower so the ticket ends near the bottom of the screen ---------- */
+.social {
+  min-height: 100vh;
+  min-height: 100dvh;
+  justify-content: flex-end;
+  padding-bottom: 26px;
+}
+.receipt-clip { height: 176px; }
