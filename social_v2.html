@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Socials — ALIF.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./social_v2.css" />
+  <script src="./social_v2.js" defer></script>
+</head>
+<body>
+  <main class="social">
+    <header class="top">
+      <a class="back" href="./index.html" aria-label="Back to home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+      </a>
+      <h1 class="title">My Socials<span class="sparkle" aria-hidden="true">✦<small>✧</small></span></h1>
+    </header>
+    <p class="hint" id="hint">Aim the claw, then press the button</p>
+
+    <section class="machine" id="machine" aria-label="Social claw machine">
+      <div class="dome" id="dome">
+        <i class="rail" aria-hidden="true"></i>
+        <div class="chute" aria-hidden="true"><i class="streak" id="streak"></i></div>
+        <div class="pile" id="pile"></div>
+        <div class="carriage" id="carriage" aria-hidden="true">
+          <i class="cable" id="cable"></i>
+          <div class="head is-open" id="head">
+            <svg class="fingers" viewBox="0 0 80 84">
+              <defs>
+                <linearGradient id="brass" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#f1dfae" /><stop offset=".5" stop-color="#b79a5e" /><stop offset="1" stop-color="#7d6638" />
+                </linearGradient>
+              </defs>
+              <g class="finger finger--l">
+                <path class="f-body" d="M40 12 C12 12 4 38 9 56 C12 66 18 73 26 77" />
+                <path class="f-hi" d="M38 10.5 C13 11 5.5 37 9.5 54" />
+                <circle class="f-joint" cx="9" cy="50" r="4.2" />
+                <circle class="f-tip" cx="26.5" cy="77" r="4.6" />
+              </g>
+              <g class="finger finger--r">
+                <path class="f-body" d="M40 12 C68 12 76 38 71 56 C68 66 62 73 54 77" />
+                <path class="f-hi" d="M42 10.5 C67 11 74.5 37 70.5 54" />
+                <circle class="f-joint" cx="71" cy="50" r="4.2" />
+                <circle class="f-tip" cx="53.5" cy="77" r="4.6" />
+              </g>
+              <rect x="31" y="-2" width="18" height="20" rx="4" fill="url(#brass)" />
+              <rect x="28" y="8" width="24" height="7" rx="2.5" fill="#8d7443" />
+              <rect x="34" y="0" width="3" height="16" rx="1.5" fill="#fff6d6" opacity=".7" />
+              <circle cx="40" cy="12" r="2.6" fill="#f6e8bd" />
+            </svg>
+          </div>
+        </div>
+        <i class="pop" id="pop" aria-hidden="true"></i>
+        <i class="glass" aria-hidden="true"></i>
+        <i class="twinkle t1" aria-hidden="true">✦</i><i class="twinkle t2" aria-hidden="true">✧</i>
+      </div>
+
+      <div class="collar" aria-hidden="true"><span class="plate"><i class="led"></i>✦ ACTIVE ✦</span></div>
+
+      <div class="base">
+        <svg class="arc" viewBox="0 0 300 34" aria-hidden="true">
+          <path id="arcPath" d="M8 10 Q150 36 292 10" fill="none" />
+          <text><textPath href="#arcPath" startOffset="50%" text-anchor="middle">AIM THE CLAW &amp; DROP TO DISPENSE A CREATOR PASS ✦</textPath></text>
+        </svg>
+
+        <div class="controls">
+          <div class="stick-plate">
+            <button class="stick-zone" id="stick" type="button" role="slider" aria-label="Aim the claw" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+              <span class="stick-boot"></span>
+              <span class="stick"><i class="rod"></i><i class="knob"></i></span>
+            </button>
+            <span class="stick-label">AIM THE CLAW</span>
+          </div>
+          <div class="grab-plate">
+            <button class="grab" id="grab" type="button"><span>DROP &amp;<br />GRAB</span></button>
+          </div>
+        </div>
+
+        <div class="dispenser">
+          <div class="slot" aria-hidden="true"></div>
+          <i class="spark s1" aria-hidden="true">✦</i><i class="spark s2" aria-hidden="true">✧</i><i class="spark s3" aria-hidden="true">✦</i><i class="spark s4" aria-hidden="true">✧</i>
+          <div class="receipt-clip">
+            <div class="receipt" id="receipt" aria-live="polite">
+              <p class="r-title">ALIF'S CREATOR PASS</p>
+              <p class="r-handle"><span class="r-icon" id="rIcon"></span><b id="rHandle"></b></p>
+              <p class="r-note" id="rNote"></p>
+              <a class="r-open" id="rOpen" href="#" target="_blank" rel="noopener">OPEN PASS <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
